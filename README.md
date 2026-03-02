@@ -32,16 +32,16 @@ skills/                # Canonical skill files (npx skills format)
 
 ```bash
 # Install all skills
-npx skills add lawson-ccy/listadao-skill-set
+npx skills add lista-dao/skills
 
 # Install specific skills only
-npx skills add lawson-ccy/listadao-skill-set --skill lista-report
+npx skills add lista-dao/skills --skill lista-report
 
 # List available skills first
-npx skills add lawson-ccy/listadao-skill-set --list
+npx skills add lista-dao/skills --list
 
 # Install globally (available across all projects)
-npx skills add lawson-ccy/listadao-skill-set -g
+npx skills add lista-dao/skills -g
 ```
 
 Supports: Claude Code, Codex, Cursor, OpenCode, Gemini CLI, and 30+ more agents.
@@ -49,7 +49,7 @@ Supports: Claude Code, Codex, Cursor, OpenCode, Gemini CLI, and 30+ more agents.
 ### Via add-skill (alternative)
 
 ```bash
-npx add-skill lawson-ccy/listadao-skill-set
+npx add-skill lista-dao/skills
 ```
 
 ## Usage Examples
