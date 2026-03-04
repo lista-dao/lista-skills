@@ -4,21 +4,21 @@
 
 Generates a full position report with collateral, debt, health factor, LTV, liquidation price, and strategy recommendations.
 
-## A.1 — Fetch positions
+## A.1 — Discover active markets
 
 Run once per address:
 
 ```bash
-node skills/scripts/moolah.js user-positions <address>
+curl -s "https://api.lista.org/api/moolah/one/holding?userAddress=<address>&type=market"
 ```
 
-Returns JSON with `positions[]`. Each entry has: `marketId`, `collateralSymbol`, `loanSymbol`, `collateral`, `borrowShares`, `supplyShares`, `currentDebt`, `lastUpdateIso`.
+Response shape: `{ code, msg, data: { objs: [...] } }`. Each entry in `objs` has: `marketId`, `collateralSymbol`, `loanSymbol`, `collateralToken`, `loanToken`, `collateralPrice`, `loanPrice`, `zone`, `termType`.
 
-If `positions` is empty → "No active positions."
+If `objs` is empty → "No active positions."
 
-## A.2 — Fetch prices and compute metrics
+## A.2 — Fetch on-chain amounts and compute metrics
 
-For each position, follow `references/computation.md` to get prices and compute: collateralUSD, debtUSD, netEquityUSD, LTV, healthFactor, liqPriceUSD, buffer, riskLevel.
+For each active market from A.1, fetch on-chain position data and compute metrics per `references/computation.md`. The holding API already provides `collateralPrice` and `loanPrice` (USD) — use these instead of making separate price-fetching calls.
 
 ## A.3 — Recommendations
 

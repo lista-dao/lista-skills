@@ -2,107 +2,66 @@
 
 # Shared Computation
 
-Referenced by Reports A, D, E for price fetching and metric computation.
+Referenced by Reports A, D, E for position discovery, price fetching, and metric computation.
 
-## Detect collateral type
+## Step 1 — Discover active markets (holding API)
 
 ```bash
-curl -s "https://api.lista.org/api/moolah/market/<marketId>" \
-  | python3 -c "
-import sys, json
-d = json.load(sys.stdin)['data']
-cfg = d.get('smartCollateralConfig') or {}
-print('LP' if cfg.get('swapPool') else 'ERC20')
-print(d.get('loanTokenPrice', ''))
-"
+curl -s "https://api.lista.org/api/moolah/one/holding?userAddress=<address>&type=market"
 ```
 
-## ERC20 collateral — price fetching
+Response: `{ code, msg, data: { objs: [...] } }`. Each entry provides:
+- `marketId` — use for on-chain position queries
+- `collateralSymbol`, `loanSymbol` — display labels
+- `collateralPrice`, `loanPrice` — USD prices (decimal strings, full precision)
+- `collateralToken`, `loanToken` — contract addresses
+- `zone` — 0=Classic, 1=Alpha, 3=Smart Lending, 4=Aster
 
-**Primary — oracle-price:**
+This replaces vault scanning. Only markets where the user has activity are returned.
+
+Smart Lending detection: `collateralSymbol` contains `&` (e.g. "slisBNB & BNB"). Label as `slisBNB/BNB LP` in output.
+
+## Step 2 — Fetch on-chain position data
+
+For each active market, fetch the raw position:
+
 ```bash
-node skills/scripts/moolah.js oracle-price <marketId>
-# Returns: { price (1e36-scaled), lltv, lltvPct }
+node skills/scripts/moolah.js position <marketId> <address>
+# Returns: { supplyShares, borrowShares, collateral }
 ```
 
-**Fallback — token-price (when oracle-price reverts):**
-```bash
-node skills/scripts/moolah.js params <marketId>
-# Returns: { collateralToken, loanToken, lltv, lltvPct }
+For markets with `borrowShares > 0`, compute current debt:
 
-node skills/scripts/moolah.js token-price <collateralToken>
-# Returns: { priceUSD }
+```bash
+node skills/scripts/moolah.js market <marketId>
+# Returns: { totalBorrowAssets, totalBorrowShares }
+# currentDebt = borrowShares × totalBorrowAssets / totalBorrowShares
 ```
 
-## LP collateral (Smart Lending) — price fetching
-
-`oracle-price` always reverts on Smart Lending markets.
+Fetch LLTV:
 
 ```bash
-node skills/scripts/moolah.js lp-price <marketId>
-# Returns: { lpTokenPriceUSD, token0Symbol, token1Symbol, virtualPriceF, coin0PriceUSD }
-
 node skills/scripts/moolah.js params <marketId>
 # Returns: { lltv, lltvPct }
 ```
 
-Label collateral as `<token0>/<token1> LP`.
+These three calls can be batched per market. If multiple markets are active, run them in parallel.
 
-## Metric computation
+## Step 3 — Metric computation
 
-**Precision rule:** All on-chain ERC20 and LP token quantities (collateral, currentDebt, supplyShares, borrowShares, lltv) are raw 1e18 integers. Always divide by 1e18 before display or USD conversion. Oracle prices from `oracle-price` are 1e36-scaled.
+**Precision rule:** All on-chain ERC20 and LP token quantities (collateral, currentDebt, supplyShares, borrowShares, lltv) are raw 1e18 integers. Always divide by 1e18 before display or USD conversion.
 
-### Path A — ERC20 with oracle-price
-
-```
-collateral_f       = collateral / 1e18
-currentDebt_f      = currentDebt / 1e18
-oraclePrice_f      = oraclePrice / 1e36
-loanTokenUSD       = loanTokenPrice (from API)
-lltvF              = lltv / 1e18
-
-collateral_in_loan = collateral_f × oraclePrice_f
-collateralPriceUSD = oraclePrice_f × loanTokenUSD
-collateralUSD      = collateral_f × collateralPriceUSD
-debtUSD            = currentDebt_f × loanTokenUSD
-netEquityUSD       = collateralUSD − debtUSD
-
-LTV                = currentDebt_f / collateral_in_loan
-healthFactor       = lltvF / LTV                     (when LTV > 0)
-liqPriceUSD        = debtUSD / (collateral_f × lltvF)
-buffer             = (collateralPriceUSD − liqPriceUSD) / collateralPriceUSD
-```
-
-### Path B — LP collateral
-
-```
-collateral_f      = collateral / 1e18
-currentDebt_f     = currentDebt / 1e18
-lpTokenPriceUSD   = from lp-price result
-loanTokenUSD      = loanTokenPrice (from API)
-lltvF             = lltv / 1e18
-
-collateralUSD     = collateral_f × lpTokenPriceUSD
-debtUSD           = currentDebt_f × loanTokenUSD
-netEquityUSD      = collateralUSD − debtUSD
-
-LTV               = debtUSD / collateralUSD
-healthFactor      = lltvF / LTV                  (when LTV > 0)
-liqPriceUSD       = debtUSD / (collateral_f × lltvF)
-buffer            = (lpTokenPriceUSD − liqPriceUSD) / lpTokenPriceUSD
-```
-
-### Path C — ERC20 with token-price fallback
+Prices come from the holding API (Step 1). No separate price-fetching calls needed.
 
 ```
 collateral_f       = collateral / 1e18
 currentDebt_f      = currentDebt / 1e18
-collateralPriceUSD = priceUSD (from token-price)
-loanTokenUSD       = loanTokenPrice (from API)
+collateralPriceUSD = collateralPrice (from holding API)
+loanPriceUSD       = loanPrice (from holding API)
 lltvF              = lltv / 1e18
 
 collateralUSD      = collateral_f × collateralPriceUSD
-debtUSD            = currentDebt_f × loanTokenUSD
+debtUSD            = currentDebt_f × loanPriceUSD
 netEquityUSD       = collateralUSD − debtUSD
 
 LTV                = debtUSD / collateralUSD
@@ -110,6 +69,8 @@ healthFactor       = lltvF / LTV                       (when LTV > 0)
 liqPriceUSD        = debtUSD / (collateral_f × lltvF)
 buffer             = (collateralPriceUSD − liqPriceUSD) / collateralPriceUSD
 ```
+
+This single path works for both ERC20 and LP collateral — the holding API provides the correct USD price for both types.
 
 ## Correlated asset pairs
 
