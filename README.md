@@ -8,22 +8,41 @@ Skills live in `skills/` and follow the `npx skills` standard format.
 
 | Command | Description |
 |---|---|
-| `/lista-report <wallet(s)>` | Bilingual position report across one or more wallets: collateral, debt, LTV, liquidation price, and strategy recommendations |
+| `/lista-report <wallet(s)>` | Report hub: position status, market overview, yield scan, risk check, daily digest |
 | `/lista-yield [asset]` | Scan best yield opportunities across all Lista vaults |
 | `/lista-loop <asset> <amount> [loops]` | Calculate optimal leverage loop strategy & net APY |
 | `/lista-market` | Daily protocol digest: TVL, utilization, top vaults |
 
+### lista-report sub-reports
+
+| # | Report | Wallet required |
+|---|---|---|
+| 1 | Position Report — collateral, debt, health factor, LTV, liquidation price, recommendations | Yes |
+| 2 | Market Overview — TVL, lending rates, top vaults, high-utilization markets | No |
+| 3 | Yield Opportunities — best deposit APY across vaults | No |
+| 4 | Risk Check — liquidation risk alerts with configurable thresholds | Yes |
+| 5 | Daily Digest — positions + yield + market snapshot in one report | Yes |
+
 ## Repository Structure
 
 ```
-skills/                # Canonical skill files (npx skills format)
+skills/                       # Canonical skill files (npx skills format)
+├── lista-report/
+│   ├── SKILL.md              # Orchestrator: language, format rules, menu, dispatch
+│   ├── REFERENCE.md          # Index of reference files
+│   └── references/
+│       ├── computation.md    # Shared: price fetching, metrics, correlated pairs, risk levels
+│       ├── position.md       # Report 1: position report templates (EN + 中文)
+│       ├── market.md         # Report 2: market overview templates
+│       ├── yield.md          # Report 3: yield opportunities templates
+│       ├── risk.md           # Report 4: risk check templates + push setup
+│       └── digest.md         # Report 5: daily digest templates + subscription
 ├── lista-loop/
 ├── lista-market/
-├── lista-report/
 ├── lista-yield/
-└── scripts/           # Shared Node.js RPC helpers (moolah.js)
+└── scripts/moolah.js         # Shared Node.js RPC helper (no external deps)
 
-.agents/               # Kept for backward compatibility
+.agents/                      # Backward compatibility (mirrors skills/)
 ```
 
 ## Installation
@@ -55,14 +74,17 @@ npx add-skill lista-dao/skills
 ## Usage Examples
 
 ```
-/lista-report 0xYourWalletAddress
-/lista-report 0xWallet1 0xWallet2
+/lista-report 0xYourWalletAddress          # position report (default)
+/lista-report 0xWallet1 0xWallet2          # multi-wallet
+/lista-report                               # pick from 5 report types
 /lista-yield BNB
 /lista-yield USD1
 /lista-loop slisBNB BNB 10
 /lista-loop BTCB BNB 0.5 3
 /lista-market
 ```
+
+Language and wallet address are saved locally (`~/.lista/`) on first run — no need to re-enter.
 
 ## How It Works
 
@@ -73,6 +95,8 @@ Each skill is a plain markdown prompt file. Any LLM tool that loads markdown sla
 3. Perform calculations and format results into a clean report
 
 No backend infrastructure required — skills work out of the box using the LLM's Bash/shell tool.
+
+SKILL.md uses progressive disclosure: it's a compact orchestrator that dispatches to reference files in `references/` on demand, so the LLM only loads what it needs for the selected report type.
 
 ## Data Sources
 
