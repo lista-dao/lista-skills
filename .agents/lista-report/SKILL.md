@@ -12,7 +12,17 @@ Generate reports for Lista Lending (Moolah) on BSC. Choose a report type below.
 
 ---
 
-## Step 0 — Ask for language
+## Step 0 — Language
+
+### Load saved language
+
+```bash
+cat ~/.lista/language.txt 2>/dev/null
+```
+
+If the file exists and contains a valid choice (en, zh-CN, zh-TW, or a custom language name), use it silently — do NOT ask again.
+
+### Ask if no saved language
 
 Do NOT run any commands until the user has answered this question:
 
@@ -23,13 +33,25 @@ Do NOT run any commands until the user has answered this question:
 >   3) 繁體中文
 >   4) Other (specify)
 
-**Language handling rules:**
-- **1 / English** — use the English template exactly.
-- **2 / 简体中文** — use the 繁體中文 template, then convert all Traditional Chinese characters to Simplified Chinese. Do NOT alter numbers, symbols, separators, or field layout.
-- **3 / 繁體中文** — use the 繁體中文 template exactly.
-- **4 / Other** — translate all label text into the user's language. Use natural, idiomatic phrasing (not word-for-word). Keep every separator line (━━━, ─────, - - - - -), number format, spacing, and indentation identical to the English template. Do NOT add bullet points, reformat rows, or change the structural layout.
+Save the choice:
 
-Remember the answer and use it for all output below.
+```bash
+mkdir -p ~/.lista && echo "<CHOICE>" > ~/.lista/language.txt
+```
+
+Where `<CHOICE>` is one of: `en`, `zh-CN`, `zh-TW`, or the user's custom language name.
+
+### Change language
+
+When the user says "change language" / "換語言" / "换语言", ask again and overwrite `~/.lista/language.txt`.
+
+**Language handling rules:**
+- **en / English** — use the English template exactly.
+- **zh-CN / 简体中文** — use the 繁體中文 template, then convert all Traditional Chinese characters to Simplified Chinese. Do NOT alter numbers, symbols, separators, or field layout.
+- **zh-TW / 繁體中文** — use the 繁體中文 template exactly.
+- **Other** — translate all label text into the user's language. Use natural, idiomatic phrasing (not word-for-word). Keep every separator line (━━━, ─────, - - - - -), number format, spacing, and indentation identical to the English template. Do NOT add bullet points, reformat rows, or change the structural layout.
+
+Use the selected language for all output below.
 
 ---
 
