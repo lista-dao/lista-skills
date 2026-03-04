@@ -1,6 +1,6 @@
 ---
 name: lista-loop
-description: "Calculates optimal leverage loop strategies and net APY for Lista Lending on BSC. Simulates recursive deposit-borrow-redeposit loops using current market rates and LLTV to show effective leverage, net APY, and liquidation risk at each loop count. Use when asked about looping strategy, leverage, amplified yield, or how many times to loop a collateral asset."
+description: Calculate optimal leverage loop strategy and net APY for Lista Lending
 ---
 
 # Lista Lending — Loop Strategy Calculator
