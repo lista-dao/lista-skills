@@ -11,11 +11,11 @@ Report A — Position Report. Fetch positions, compute metrics, generate recomme
 → Read when user selects report type 1.
 
 ## references/market.md
-Report B — Market Overview. Fetch vaults/allocations, compute TVL/utilization/rates, EN + 繁體中文 templates.
+Report B — Market Lending Rates. Per-market Supply APY, Borrow APY, liquidity, utilization. Supports asset filtering. EN + 繁體中文 templates.
 → Read when user selects report type 2.
 
 ## references/yield.md
-Report C — Yield Opportunities. Fetch and sort vaults by APY, identify Smart Lending and Fixed Rate, EN + 繁體中文 templates.
+Report C — Vault Yield. Per-vault APY (base + LISTA), TVL, underlying market allocations. Grouped by zone. EN + 繁體中文 templates.
 → Read when user selects report type 3.
 
 ## references/risk.md

@@ -75,12 +75,12 @@ Ask the user (or infer from their request):
 > Which report would you like?
 > 你需要哪種報告？
 >   1) Position Report — collateral, debt, health factor, LTV, liquidation price
->   2) Market Overview — TVL, lending rates, top vaults
->   3) Yield Opportunities — best deposit APY across vaults
+>   2) Market Lending Rates — Supply APY, Borrow APY, liquidity per market
+>   3) Vault Yield — APY, TVL, underlying assets per vault
 >   4) Risk Check — liquidation risk alerts with thresholds
 >   5) Daily Digest — positions + yield + market snapshot
 
-If the user's original message already implies a type (e.g. "check my positions" → 1, "what rates are available" → 2, "best yield" → 3, "am I safe" → 4, "daily report" → 5), skip the question and proceed directly.
+If the user's original message already implies a type (e.g. "check my positions" → 1, "USDT borrow rate" → 2, "vault APY" → 3, "am I safe" → 4, "daily report" → 5), skip the question and proceed directly.
 
 ---
 
@@ -131,8 +131,8 @@ Read `REFERENCE.md` for the file index, then read the specific reference files f
 | Report type | Read these files |
 |---|---|
 | 1 — Position Report | `references/computation.md`, `references/position.md` |
-| 2 — Market Overview | `references/market.md` |
-| 3 — Yield Opportunities | `references/yield.md` |
+| 2 — Market Lending Rates | `references/market.md` |
+| 3 — Vault Yield | `references/yield.md` |
 | 4 — Risk Check | `references/computation.md`, `references/risk.md` |
 | 5 — Daily Digest | `references/computation.md`, `references/digest.md` |
 

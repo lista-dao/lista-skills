@@ -1,103 +1,135 @@
 > Follow the FORMAT ENFORCEMENT rules from SKILL.md. Output must match templates character-for-character.
 
-# Report C — Yield Opportunities
+# Report C — Vault Yield
 
-Scan vaults and surface top deposit APY.
+Query each Vault's current APY, TVL, and underlying market allocations.
 
-## C.1 — Fetch and sort
+## C.1 — Fetch data
 
 ```bash
+# All vaults
 curl -s "https://api.lista.org/api/moolah/vault/list?pageSize=100"
-```
 
-- Filter by `assetSymbol` if user specified an asset
-- `totalApy = apy + (emissionApy if emissionEnabled else 0)`
-- Sort by `totalApy` descending within each zone
-
-For top 5 vaults, fetch allocations:
-
-```bash
+# For each vault, get underlying market allocations
 curl -s "https://api.lista.org/api/moolah/vault/allocation?address=<VAULT>&pageSize=100"
 ```
 
-Identify Smart Lending (`smartCollateralConfig != null`) and Fixed Rate (`termType == "fixed"`) markets.
+- If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), filter by `assetSymbol`.
+- `totalApy = apy + (emissionApy if emissionEnabled else 0)`
+- Sort by `totalApy` descending within each zone.
+- Group by zone: 0=Classic, 1=Alpha, 4=Aster.
+- For each vault, list top 3 underlying markets by allocation weight.
 
 ## C.2 — Output template
 
 ### English
 
 ```
-Lista Lending — Top Yield Opportunities
+💰 Lista Lending — Vault Yield
+<YYYY-MM-DD HH:MM> UTC  |  BSC Mainnet
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-<YYYY-MM-DD> UTC  |  BSC Mainnet
 
-🏆 Classic Zone (Audited)
+🏆 Classic (Audited)
 
-🥇 WBNB Vault
-APY: 4.2% base + 2.1% LISTA = 6.3% total
-TVL: ＄42.1M | Utilization: 52%
-Top markets: slisBNB/WBNB 39%, PT-slisBNBx/WBNB 21%
+1. WBNB Vault  (WBNB)
+   APY: 4.2% base + 2.1% LISTA = 6.3% total
+   TVL: ＄18.2M  |  Utilization: 52%
+   Markets: slisBNB/WBNB 39% ⚡, PT-slisBNBx/WBNB 21% 🔒, BTCB/WBNB 18%
 
 - - - - -
 
-🥈 USD1 Vault
-APY: 3.1% base + 1.8% LISTA = 4.9% total
-TVL: ＄18.3M | Utilization: 61%
-Top markets: BTCB/USD1 44%
-
-⚡ Smart Lending — slisBNB/WBNB earns extra ~1.2% from DEX fees
-📌 Fixed Rate — PT-slisBNBx at 5.8% fixed
+2. USD1 Vault  (USD1)
+   APY: 3.1% base + 1.8% LISTA = 4.9% total
+   TVL: ＄8.3M  |  Utilization: 61%
+   Markets: BTCB/USD1 44%, WBNB/USD1 32%
 
 - - - - -
 
-⚠️ Alpha Zone (Higher Risk)
-WBTC/USD1 — 14.2% | Emerging market, less liquidity
-
-🤝 Aster Zone (Partner Assets)
-<vault name> — <APY>% | Partner-originated
+3. U Vault  (U)
+   APY: 2.5% base + 0% LISTA = 2.5% total
+   TVL: ＄5.1M  |  Utilization: 48%
+   Markets: slisBNB/U 52%, BTCB/U 30%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-💡 High utilization (>85%) = rates may rise. Smart Lending earns DEX trading fees.
+⚠️  Alpha (Higher Risk)
 
-Data: api.lista.org | BSC Mainnet
+1. WBTC Vault  (WBTC)
+   APY: 14.2% base + 0% LISTA = 14.2% total
+   TVL: ＄420K  |  Utilization: 78%
+   Markets: WBTC/USD1 100%
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🤝 Aster (Partner Assets)
+
+1. <vault name>  (<asset>)
+   APY: <base>% base + <emission>% LISTA = <total>% total
+   TVL: ＄<tvl>  |  Utilization: <util>%
+   Markets: <top allocations>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ Smart Lending  |  🔒 Fixed Rate
+
+Data: api.lista.org  |  BSC Mainnet
 ```
+
+Notes:
+- Show all vaults per zone, ranked by totalApy.
+- Omit a zone section entirely if no vaults exist in that zone.
+- If user filtered by asset, show only matching vaults and replace title with: `💰 Lista Lending — <ASSET> Vault Yield`.
+- If `emissionApy` is 0 or emission is disabled, show `0% LISTA`.
 
 ### 繁體中文
 
 ```
-Lista Lending — 最佳存款收益
+💰 Lista Lending — Vault 收益
+<YYYY-MM-DD HH:MM> UTC  |  BSC 主網
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-<YYYY-MM-DD> UTC | BSC 主網
 
-🏆 Classic 區（已審計）
+🏆 Classic（已審計）
 
-🥇 WBNB 金庫
-年化：4.2% 基礎 + 2.1% LISTA = 6.3% 總計
-TVL：＄42.1M | 利用率：52%
-主要市場：slisBNB/WBNB 39%，PT-slisBNBx/WBNB 21%
+1. WBNB 金庫（WBNB）
+   年化：4.2% 基礎 + 2.1% LISTA = 6.3% 總計
+   TVL：＄18.2M  |  利用率：52%
+   底層市場：slisBNB/WBNB 39% ⚡、PT-slisBNBx/WBNB 21% 🔒、BTCB/WBNB 18%
 
 - - - - -
 
-🥈 USD1 金庫
-年化：3.1% 基礎 + 2.1% LISTA = 5.2% 總計
-TVL：＄18.3M | 利用率：61%
-主要市場：BTCB/USD1 44%
-
-⚡ Smart Lending — slisBNB/WBNB 額外賺取約 1.2% DEX 手續費
-📌 固定利率 — PT-slisBNBx 5.8% 固定
+2. USD1 金庫（USD1）
+   年化：3.1% 基礎 + 1.8% LISTA = 4.9% 總計
+   TVL：＄8.3M  |  利用率：61%
+   底層市場：BTCB/USD1 44%、WBNB/USD1 32%
 
 - - - - -
 
-⚠️ Alpha 區（較高風險）
-WBTC/USD1 — 14.2% | 新興市場，流動性較低
-
-🤝 Aster 區（合作夥伴資產）
-<金庫名稱> — <APY>% | 合作方發起
+3. U 金庫（U）
+   年化：2.5% 基礎 + 0% LISTA = 2.5% 總計
+   TVL：＄5.1M  |  利用率：48%
+   底層市場：slisBNB/U 52%、BTCB/U 30%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-💡 高利用率（>85%）代表利率可能上升。Smart Lending 可賺取 DEX 交易手續費。
+⚠️  Alpha（較高風險）
 
-資料來源：api.lista.org | BSC 主網
+1. WBTC 金庫（WBTC）
+   年化：14.2% 基礎 + 0% LISTA = 14.2% 總計
+   TVL：＄420K  |  利用率：78%
+   底層市場：WBTC/USD1 100%
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🤝 Aster（合作夥伴資產）
+
+1. <金庫名稱>（<資產>）
+   年化：<基礎>% 基礎 + <獎勵>% LISTA = <總計>% 總計
+   TVL：＄<tvl>  |  利用率：<util>%
+   底層市場：<主要配置>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ Smart Lending  |  🔒 固定利率
+
+資料來源：api.lista.org  |  BSC 主網
 ```
