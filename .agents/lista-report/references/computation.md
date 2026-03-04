@@ -50,7 +50,7 @@ Label collateral as `<token0>/<token1> LP`.
 
 ## Metric computation
 
-All raw values are 1e18 integers. Use float for display.
+**Precision rule:** All on-chain ERC20 and LP token quantities (collateral, currentDebt, supplyShares, borrowShares, lltv) are raw 1e18 integers. Always divide by 1e18 before display or USD conversion. Oracle prices from `oracle-price` are 1e36-scaled.
 
 ### Path A — ERC20 with oracle-price
 
