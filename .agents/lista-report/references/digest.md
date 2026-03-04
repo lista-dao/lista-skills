@@ -32,30 +32,30 @@ Wallet: 0xAbCd...5678
 
 🏦 Lending Positions
 ─────────────────────
-#1  BTCB / U
-   Collateral: 2.50 BTCB (~＄250,000)
-   Debt:       100,000.00 U (~＄100,000)
-   Health factor: 2.15 ✅
-   LTV: 40.0% / LLTV: 86.0%
-   Liq. price: ＄46,511 / BTCB (current: ＄100,000)
+#1 BTCB / U
+Collateral: 2.50 BTCB (~＄250,000)
+Debt: 100,000.00 U (~＄100,000)
+Health factor: 2.15 ✅
+LTV: 40.0% / LLTV: 86.0%
+Liq. price: ＄46,511 / BTCB (current: ＄100,000)
 
 ─────────────────────
 
 💰 Estimated Yield (at current APY)
-   WBNB Vault: ~＄2.31/day  (12.4% APY on ＄6,800 supply)
-   USD1 Vault: ~＄0.87/day  (5.6% APY on ＄5,670 supply)
-   Daily total: ~＄3.18  |  Weekly: ~＄22.26
+WBNB Vault: ~＄2.31/day (12.4% APY on ＄6,800 supply)
+USD1 Vault: ~＄0.87/day (5.6% APY on ＄5,670 supply)
+Daily total: ~＄3.18 | Weekly: ~＄22.26
 
 ─────────────────────
 
 📈 Market Snapshot
-   USDT borrow rate: 8.2% (↑0.3%)
-   WBNB Vault APY: 12.4% (unchanged)
-   USD1 Vault APY: 5.6% (↓0.2%)
+USDT borrow rate: 8.2% (↑0.3%)
+WBNB Vault APY: 12.4% (unchanged)
+USD1 Vault APY: 5.6% (↓0.2%)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Data: api.lista.org  |  BSC Mainnet
+Data: api.lista.org | BSC Mainnet
 ```
 
 If risk alerts exist, add before closing ━━━. Use two tiers:
@@ -65,13 +65,13 @@ If risk alerts exist, add before closing ━━━. Use two tiers:
 ```
 ─────────────────────
 
-⚠️  Risk Alerts
-   #2 slisBNB / WBNB — HF: 1.15 ⚠️  LTV gap: 4.2%
-   Consider adding collateral or repaying ~0.5 WBNB.
+⚠️ Risk Alerts
+#2 slisBNB / WBNB — HF: 1.15 ⚠️ LTV gap: 4.2%
+Consider adding collateral or repaying ~0.5 WBNB.
 
 🔴 Critical
-   #3 ETH / USDT — HF: 1.004 🔴  LTV gap: 0.4%
-   Repay debt or add collateral immediately.
+#3 ETH / USDT — HF: 1.004 🔴 LTV gap: 0.4%
+Repay debt or add collateral immediately.
 ```
 
 ### 繁體中文
@@ -83,30 +83,30 @@ If risk alerts exist, add before closing ━━━. Use two tiers:
 
 🏦 借貸持倉
 ─────────────────────
-#1  BTCB / U
-   抵押品：2.50 BTCB（約 ＄250,000）
-   負債：  100,000.00 U（約 ＄100,000）
-   健康係數：2.15 ✅
-   LTV：40.0% / 清算線：86.0%
-   清算價格：＄46,511 / BTCB（當前價：＄100,000）
+#1 BTCB / U
+抵押品：2.50 BTCB（約 ＄250,000）
+負債：100,000.00 U（約 ＄100,000）
+健康係數：2.15 ✅
+LTV：40.0% / 清算線：86.0%
+清算價格：＄46,511 / BTCB（當前價：＄100,000）
 
 ─────────────────────
 
 💰 預估收益（按當前年化）
-   WBNB 金庫：約 ＄2.31/日（12.4% 年化，供款 ＄6,800）
-   USD1 金庫：約 ＄0.87/日（5.6% 年化，供款 ＄5,670）
-   每日合計：約 ＄3.18  |  每週：約 ＄22.26
+WBNB 金庫：約 ＄2.31/日（12.4% 年化，供款 ＄6,800）
+USD1 金庫：約 ＄0.87/日（5.6% 年化，供款 ＄5,670）
+每日合計：約 ＄3.18 | 每週：約 ＄22.26
 
 ─────────────────────
 
 📈 市場快訊
-   USDT 借款利率：8.2%（↑0.3%）
-   WBNB 金庫年化：12.4%（持平）
-   USD1 金庫年化：5.6%（↓0.2%）
+USDT 借款利率：8.2%（↑0.3%）
+WBNB 金庫年化：12.4%（持平）
+USD1 金庫年化：5.6%（↓0.2%）
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：api.lista.org | BSC 主網
 ```
 
 For weekly: replace "Daily Digest" / "每日報告" with "Weekly Digest" / "每週報告". Show weekly yield estimates instead of daily.

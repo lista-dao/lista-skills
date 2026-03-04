@@ -40,38 +40,38 @@ If user asks about a specific asset (e.g. "USDT rate"), filter to markets with t
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🌐 Protocol Overview
-   Total TVL:        ＄42.1M
-   Est. Borrows:     ＄18.9M  |  Overall Util: 44.9%
-   Active Vaults:    12 Classic  |  4 Alpha  |  2 Aster
+Total TVL: ＄42.1M
+Est. Borrows: ＄18.9M | Overall Util: 44.9%
+Active Vaults: 12 Classic | 4 Alpha | 2 Aster
 
 - - - - -
 
 💰 Top Vaults by TVL
-1. WBNB Vault  (WBNB)
-   TVL: ＄18.2M  |  APY: 4.2% + 2.1% LISTA = 6.3%  |  Util: 52%
+1. WBNB Vault (WBNB)
+TVL: ＄18.2M | APY: 4.2% + 2.1% LISTA = 6.3% | Util: 52%
 
 - - - - -
 
 🔥 High-Utilization Markets (>85%)
-   slisBNB/WBNB — 92%  |  Borrow rate: 8.4%  [rate rising]
+slisBNB/WBNB — 92% | Borrow rate: 8.4% [rate rising]
 
-⚠️  Near Supply Cap
-   PT-slisBNBx/WBNB — 94% of cap used  (＄240K remaining)
+⚠️ Near Supply Cap
+PT-slisBNBx/WBNB — 94% of cap used (＄240K remaining)
 
 📋 Lending Rates by Market
-   slisBNB/WBNB  — Supply: 3.2%  |  Borrow: 5.8%  |  Liquidity: ＄4.1M
-   BTCB/U        — Supply: 2.8%  |  Borrow: 4.6%  |  Liquidity: ＄12.3M
-   WBNB/USD1     — Supply: 4.1%  |  Borrow: 7.2%  |  Liquidity: ＄2.8M
+slisBNB/WBNB — Supply: 3.2% | Borrow: 5.8% | Liquidity: ＄4.1M
+BTCB/U — Supply: 2.8% | Borrow: 4.6% | Liquidity: ＄12.3M
+WBNB/USD1 — Supply: 4.1% | Borrow: 7.2% | Liquidity: ＄2.8M
 
-⚡ Smart Lending  |  🔒 Fixed Rate
-   slisBNB/WBNB — DEX fees active
-   PT-slisBNBx/WBNB — 5.8% fixed
+⚡ Smart Lending | 🔒 Fixed Rate
+slisBNB/WBNB — DEX fees active
+PT-slisBNBx/WBNB — 5.8% fixed
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 💡 <1–2 insight sentences>
 
-Data: api.lista.org  |  BSC Mainnet
+Data: api.lista.org | BSC Mainnet
 ```
 
 ### 繁體中文
@@ -82,36 +82,36 @@ Data: api.lista.org  |  BSC Mainnet
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🌐 協議總覽
-   總 TVL：      ＄42.1M
-   預估借款：    ＄18.9M  |  整體利用率：44.9%
-   活躍金庫：    12 Classic  |  4 Alpha  |  2 Aster
+總 TVL： ＄42.1M
+預估借款： ＄18.9M | 整體利用率：44.9%
+活躍金庫： 12 Classic | 4 Alpha | 2 Aster
 
 - - - - -
 
 💰 TVL 最高金庫
 1. WBNB 金庫（WBNB）
-   TVL：＄18.2M  |  年化：4.2% + 2.1% LISTA = 6.3%  |  利用率：52%
+TVL：＄18.2M | 年化：4.2% + 2.1% LISTA = 6.3% | 利用率：52%
 
 - - - - -
 
 🔥 高利用率市場（>85%）
-   slisBNB/WBNB — 92%  |  借款利率：8.4%  [利率上升中]
+slisBNB/WBNB — 92% | 借款利率：8.4% [利率上升中]
 
-⚠️  接近供給上限
-   PT-slisBNBx/WBNB — 已用 94%（剩餘 ＄240K）
+⚠️ 接近供給上限
+PT-slisBNBx/WBNB — 已用 94%（剩餘 ＄240K）
 
 📋 各市場借貸利率
-   slisBNB/WBNB  — 供款：3.2%  |  借款：5.8%  |  流動性：＄4.1M
-   BTCB/U        — 供款：2.8%  |  借款：4.6%  |  流動性：＄12.3M
-   WBNB/USD1     — 供款：4.1%  |  借款：7.2%  |  流動性：＄2.8M
+slisBNB/WBNB — 供款：3.2% | 借款：5.8% | 流動性：＄4.1M
+BTCB/U — 供款：2.8% | 借款：4.6% | 流動性：＄12.3M
+WBNB/USD1 — 供款：4.1% | 借款：7.2% | 流動性：＄2.8M
 
-⚡ Smart Lending  |  🔒 固定利率
-   slisBNB/WBNB — DEX 手續費啟用
-   PT-slisBNBx/WBNB — 5.8% 固定
+⚡ Smart Lending | 🔒 固定利率
+slisBNB/WBNB — DEX 手續費啟用
+PT-slisBNBx/WBNB — 5.8% 固定
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 💡 <1-2 句市場見解>
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：api.lista.org | BSC 主網
 ```

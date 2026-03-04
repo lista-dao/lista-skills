@@ -35,19 +35,19 @@ Show alert-flagged positions first, then safe positions in compact format.
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 Wallet: 0xAbCd...5678
 
-#1  slisBNB / WBNB
+#1 slisBNB / WBNB
 ─────────────────────
-Collateral:   2.50 slisBNB  (~＄1,450)
-Debt:         1.89 WBNB  (~＄1,300)
+Collateral: 2.50 slisBNB (~＄1,450)
+Debt: 1.89 WBNB (~＄1,300)
 Health factor: 1.004 🔴
-Current LTV:  89.6%  /  LLTV: 90.0%
-LTV gap:      0.4% — below threshold (0.5%)
+Current LTV: 89.6% / LLTV: 90.0%
+LTV gap: 0.4% — below threshold (0.5%)
 
-Liq. price:   ＄532.40 / slisBNB  (current: ＄580.00)
-Distance:     ＄47.60  (8.2%)
+Liq. price: ＄532.40 / slisBNB (current: ＄580.00)
+Distance: ＄47.60 (8.2%)
 
 Action: Add collateral or repay debt immediately.
-        Repay ~0.15 WBNB to bring LTV to 80%.
+Repay ~0.15 WBNB to bring LTV to 80%.
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -61,13 +61,13 @@ Wallet: 0xAbCd...5678
 
 No positions approaching liquidation.
 
-#1  BTCB / U  |  HF: 1.83 ✅  |  LTV: 47.1% / 86.0%  |  gap: 38.9%
-#2  ETH / USD1  |  HF: 2.14 ✅  |  LTV: 37.4% / 80.0%  |  gap: 42.6%
+#1 BTCB / U | HF: 1.83 ✅ | LTV: 47.1% / 86.0% | gap: 38.9%
+#2 ETH / USD1 | HF: 2.14 ✅ | LTV: 37.4% / 80.0% | gap: 42.6%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-Threshold: LLTV >= 90% → gap 0.5%  |  LLTV < 90% → gap 5%
+Threshold: LLTV >= 90% → gap 0.5% | LLTV < 90% → gap 5%
 
-Data: api.lista.org  |  BSC Mainnet
+Data: api.lista.org | BSC Mainnet
 ```
 
 ### 繁體中文 — 觸發預警
@@ -77,19 +77,19 @@ Data: api.lista.org  |  BSC Mainnet
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 錢包：0xAbCd...5678
 
-#1  slisBNB / WBNB
+#1 slisBNB / WBNB
 ─────────────────────
-抵押品：  2.50 slisBNB（約 ＄1,450）
-負債：    1.89 WBNB（約 ＄1,300）
+抵押品：2.50 slisBNB（約 ＄1,450）
+負債：1.89 WBNB（約 ＄1,300）
 健康係數：1.004 🔴
-當前 LTV：89.6%  /  清算線：90.0%
+當前 LTV：89.6% / 清算線：90.0%
 LTV 差距：0.4% ⚠️ 低於預警閾值（0.5%）
 
 清算觸發價格：＄532.40 / slisBNB（當前價：＄580.00）
-距離清算：    ＄47.60（8.2%）
+距離清算：＄47.60（8.2%）
 
 操作建議：立即補充抵押品或償還部分借款。
-          償還約 0.15 WBNB 可將 LTV 降至 80%。
+償還約 0.15 WBNB 可將 LTV 降至 80%。
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -103,13 +103,13 @@ LTV 差距：0.4% ⚠️ 低於預警閾值（0.5%）
 
 沒有持倉接近清算線。
 
-#1  BTCB / U  |  健康係數：1.83 ✅  |  LTV：47.1% / 86.0%  |  差距：38.9%
-#2  ETH / USD1  |  健康係數：2.14 ✅  |  LTV：37.4% / 80.0%  |  差距：42.6%
+#1 BTCB / U | 健康係數：1.83 ✅ | LTV：47.1% / 86.0% | 差距：38.9%
+#2 ETH / USD1 | 健康係數：2.14 ✅ | LTV：37.4% / 80.0% | 差距：42.6%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-預警閾值：LLTV >= 90% → 差距 0.5%  |  LLTV < 90% → 差距 5%
+預警閾值：LLTV >= 90% → 差距 0.5% | LLTV < 90% → 差距 5%
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：api.lista.org | BSC 主網
 ```
 
 ## D.4 — Threshold customization
