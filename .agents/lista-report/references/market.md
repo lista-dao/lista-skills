@@ -43,14 +43,14 @@ Flag special market types:
 <YYYY-MM-DD HH:MM> UTC  |  BSC Mainnet
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Market                      Supply APY   Borrow APY   Liquidity      Util
-─────────────────────────────────────────────────────────────────────────
-slisBNB / WBNB ⚡           3.2%         5.8%         ＄4.1M         72%
-BTCB / U                    2.8%         4.6%         ＄12.3M        41%
-WBNB / USD1                 4.1%         7.2%         ＄2.8M         68%
-PT-slisBNBx / WBNB 🔒      5.8%         —            ＄1.2M         89% 🔥
-slisBNB & BNB / USD1 ⚡     1.4%         3.9%         ＄3.5M         55%
-ETH / USD1                  1.9%         4.2%         ＄800K         38%
+| Market | Supply APY | Borrow APY | Liquidity | Util |
+|--------|------------|------------|-----------|------|
+| slisBNB / WBNB ⚡ | 3.2% | 5.8% | ＄4.1M | 72% |
+| BTCB / U | 2.8% | 4.6% | ＄12.3M | 41% |
+| WBNB / USD1 | 4.1% | 7.2% | ＄2.8M | 68% |
+| PT-slisBNBx / WBNB 🔒 | 5.8% | — | ＄1.2M | 89% 🔥 |
+| slisBNB & BNB / USD1 ⚡ | 1.4% | 3.9% | ＄3.5M | 55% |
+| ETH / USD1 | 1.9% | 4.2% | ＄800K | 38% |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -60,7 +60,7 @@ Data: api.lista.org  |  BSC Mainnet
 ```
 
 Notes:
-- One row per market, columns aligned with spaces.
+- One row per market.
 - Fixed Rate markets show `—` for Borrow APY (no borrowing).
 - If user filtered by asset, show only matching markets and replace title with: `📋 Lista Lending — <ASSET> Market Rates`.
 
@@ -71,14 +71,14 @@ Notes:
 <YYYY-MM-DD HH:MM> UTC  |  BSC 主網
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-市場                        供款年化     借款年化     流動性         利用率
-─────────────────────────────────────────────────────────────────────────
-slisBNB / WBNB ⚡           3.2%         5.8%         ＄4.1M         72%
-BTCB / U                    2.8%         4.6%         ＄12.3M        41%
-WBNB / USD1                 4.1%         7.2%         ＄2.8M         68%
-PT-slisBNBx / WBNB 🔒      5.8%         —            ＄1.2M         89% 🔥
-slisBNB & BNB / USD1 ⚡     1.4%         3.9%         ＄3.5M         55%
-ETH / USD1                  1.9%         4.2%         ＄800K         38%
+| 市場 | 供款年化 | 借款年化 | 流動性 | 利用率 |
+|------|----------|----------|--------|--------|
+| slisBNB / WBNB ⚡ | 3.2% | 5.8% | ＄4.1M | 72% |
+| BTCB / U | 2.8% | 4.6% | ＄12.3M | 41% |
+| WBNB / USD1 | 4.1% | 7.2% | ＄2.8M | 68% |
+| PT-slisBNBx / WBNB 🔒 | 5.8% | — | ＄1.2M | 89% 🔥 |
+| slisBNB & BNB / USD1 ⚡ | 1.4% | 3.9% | ＄3.5M | 55% |
+| ETH / USD1 | 1.9% | 4.2% | ＄800K | 38% |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
