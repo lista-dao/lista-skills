@@ -6,16 +6,16 @@ Check all positions for liquidation risk and flag those approaching thresholds.
 
 ## D.1 — Fetch positions and compute metrics
 
-Same as Report A steps A.1–A.2. Use `references/computation.md` for price fetching and metric computation.
+Same as Report A steps A.1–A.2. Use `references/computation.md` for MCP data fetching and metric computation.
 
 ## D.2 — Apply alert thresholds
 
-For each position with `borrowShares > 0`:
+For each position with debt > 0 (i.e. `borrows[].amount > 0`):
 
 ```
-ltvGap = lltvF - LTV    # decimal; multiply by 100 for display %
+ltvGap = lltv - LTV    # decimal; multiply by 100 for display %
 
-if lltvF >= 0.90:
+if lltv >= 0.90:
     defaultThreshold = 0.005   # 0.5%
 else:
     defaultThreshold = 0.05    # 5%

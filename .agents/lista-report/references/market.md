@@ -6,32 +6,37 @@ Query real-time Supply APY and Borrow APY for each lending market.
 
 ## B.1 — Fetch data
 
-```bash
-# All vaults (to discover markets via allocations)
-curl -s "https://api.lista.org/api/moolah/vault/list?pageSize=100"
-
-# For each vault, get per-market allocations
-curl -s "https://api.lista.org/api/moolah/vault/allocation?address=<VAULT>&pageSize=100"
+```
+lista_get_borrow_markets({ pageSize: 50 })
 ```
 
-API shape: `response.data.list`. APY values are decimals (0.087 = 8.7%).
+Returns per market:
+- `id` — market identifier
+- `collateral` / `loan` — asset symbols
+- `supplyApy` — supply-side APY (decimal, 0.087 = 8.7%)
+- `rate` — borrow-side APY (decimal)
+- `liquidity` — available liquidity (token amount)
+- `liquidityUsd` — available liquidity in USD
+- `smartCollateralConfig` — non-empty for Smart Lending markets
+- `termType` — 0 = variable, non-zero = fixed rate
+- `lltv` — liquidation LTV
+
+If user asks about a specific asset (e.g. "USDT rate", "BNB 利率"), pass `keyword` parameter to filter.
 
 ## B.2 — Compute
 
-From all vault allocations, build a deduplicated market list. Each market appears once with:
-- `collateralSymbol / loanSymbol` — market name
+Build a deduplicated market list. Each market appears once with:
+- `collateral / loan` — market name
 - `supplyApy` — supply-side APY (decimal → %)
-- `borrowRate` — borrow-side APY (decimal → %)
-- `liquidity` — available liquidity in USD
-- `utilization` — current utilization ratio (decimal → %)
+- `rate` — borrow-side APY (decimal → %)
+- `liquidityUsd` — available liquidity in USD
+- `utilization` — compute as: `borrow / (liquidity + borrow)` where `liquidity` = available to borrow, `borrow` = already borrowed
 
-If user asks about a specific asset (e.g. "USDT rate", "BNB 利率"), filter to markets containing that asset as collateral or loan.
-
-Sort by liquidity descending (largest markets first).
+Sort by liquidityUsd descending (largest markets first).
 
 Flag special market types:
-- Smart Lending: `smartCollateralConfig != null` → append `⚡`
-- Fixed Rate: `termType == "fixed"` → append `🔒`
+- Smart Lending: `smartCollateralConfig` is non-empty → append `⚡`
+- Fixed Rate: `termType != 0` → append `🔒`
 - High utilization: `utilization > 0.85` → append `🔥`
 
 ## B.3 — Output template

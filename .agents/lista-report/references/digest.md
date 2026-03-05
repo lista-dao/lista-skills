@@ -6,11 +6,11 @@ Position overview + estimated yield + market snapshot in one report.
 
 ## E.1 — Fetch data
 
-Positions: same as Report A step A.1, metrics via `references/computation.md`.
+Positions: same as Report A step A.1, metrics via `references/computation.md` (MCP-based).
 
 Vaults:
-```bash
-curl -s "https://api.lista.org/api/moolah/vault/list?pageSize=100"
+```
+lista_get_lending_vaults({ pageSize: 50 })
 ```
 
 Yield estimation (no historical snapshot needed):

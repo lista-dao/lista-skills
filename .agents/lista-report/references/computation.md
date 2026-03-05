@@ -4,73 +4,57 @@
 
 Referenced by Reports A, D, E for position discovery, price fetching, and metric computation.
 
-## Step 1 — Discover active markets (holding API)
+## Step 1 — Fetch position data (MCP)
 
-```bash
-curl -s "https://api.lista.org/api/moolah/one/holding?userAddress=<address>&type=market"
+Call two MCP tools:
+
+```
+lista_get_position({ wallet: "<address>" })
 ```
 
-Response: `{ code, msg, data: { objs: [...] } }`. Each entry provides:
-- `marketId` — use for on-chain position queries
-- `collateralSymbol`, `loanSymbol` — display labels
-- `collateralPrice`, `loanPrice` — USD prices (decimal strings, full precision)
-- `collateralToken`, `loanToken` — contract addresses
-- `zone` — 0=Classic, 1=Alpha, 3=Smart Lending, 4=Aster
+Returns three sections:
 
-This replaces vault scanning. Only markets where the user has activity are returned.
+- **holdings.objs[]** — active markets with metadata:
+  - `marketId`, `collateralSymbol`, `loanSymbol`, `collateralPrice`, `loanPrice` (USD), `zone`, `termType`
+- **collaterals[]** — per-market collateral:
+  - `address` (marketId), `amount` (human-readable), `usdValue`
+- **borrows[]** — per-market debt (pre-computed, not raw shares):
+  - `address` (marketId), `assetSymbol`, `collateralSymbol`, `amount` (human-readable), `usdValue`
+
+Then fetch LLTV for each active market. Markets are paginated (max 50/page), so paginate until all needed IDs are found:
+
+```
+lista_get_borrow_markets({ pageSize: 50, page: 1 })
+lista_get_borrow_markets({ pageSize: 50, page: 2 })   # if needed
+lista_get_borrow_markets({ pageSize: 50, page: 3 })   # if needed
+```
+
+Each market has `id` and `lltv` (decimal string, e.g. "0.860000000000000000"). Match by `id` to the user's active market IDs from holdings. Stop paginating once all active market LLTVs are found.
 
 Smart Lending detection: `collateralSymbol` contains `&` (e.g. "slisBNB & BNB"). Label as `slisBNB/BNB LP` in output.
 
-## Step 2 — Fetch on-chain position data
+## Step 2 — Metric computation
 
-For each active market, fetch the raw position:
+All amounts from MCP are human-readable (not raw 1e18). No precision conversion needed.
 
-```bash
-node skills/scripts/moolah.js position <marketId> <address>
-# Returns: { supplyShares, borrowShares, collateral }
-```
-
-For markets with `borrowShares > 0`, compute current debt:
-
-```bash
-node skills/scripts/moolah.js market <marketId>
-# Returns: { totalBorrowAssets, totalBorrowShares }
-# currentDebt = borrowShares × totalBorrowAssets / totalBorrowShares
-```
-
-Fetch LLTV:
-
-```bash
-node skills/scripts/moolah.js params <marketId>
-# Returns: { lltv, lltvPct }
-```
-
-These three calls can be batched per market. If multiple markets are active, run them in parallel.
-
-## Step 3 — Metric computation
-
-**Precision rule:** All on-chain ERC20 and LP token quantities (collateral, currentDebt, supplyShares, borrowShares, lltv) are raw 1e18 integers. Always divide by 1e18 before display or USD conversion.
-
-Prices come from the holding API (Step 1). No separate price-fetching calls needed.
+For each market, join data by `marketId`:
 
 ```
-collateral_f       = collateral / 1e18
-currentDebt_f      = currentDebt / 1e18
-collateralPriceUSD = collateralPrice (from holding API)
-loanPriceUSD       = loanPrice (from holding API)
-lltvF              = lltv / 1e18
+collateralAmount   = collaterals[].amount
+collateralUSD      = collaterals[].usdValue
+debtAmount         = borrows[].amount          (0 if no borrow entry)
+debtUSD            = borrows[].usdValue        (0 if no borrow entry)
+collateralPrice    = holdings[].collateralPrice
+loanPrice          = holdings[].loanPrice
+lltv               = borrow_markets[].lltv     (match by market id)
 
-collateralUSD      = collateral_f × collateralPriceUSD
-debtUSD            = currentDebt_f × loanPriceUSD
 netEquityUSD       = collateralUSD − debtUSD
 
 LTV                = debtUSD / collateralUSD
-healthFactor       = lltvF / LTV                       (when LTV > 0)
-liqPriceUSD        = debtUSD / (collateral_f × lltvF)
-buffer             = (collateralPriceUSD − liqPriceUSD) / collateralPriceUSD
+healthFactor       = lltv / LTV                       (when LTV > 0)
+liqPriceUSD        = debtUSD / (collateralAmount × lltv)
+buffer             = (collateralPrice − liqPriceUSD) / collateralPrice
 ```
-
-This single path works for both ERC20 and LP collateral — the holding API provides the correct USD price for both types.
 
 ## Correlated asset pairs
 
@@ -85,14 +69,14 @@ A position is **correlated** when collateral and loan are in the same family. Fo
 ## Risk level assignment
 
 **Uncorrelated (standard):**
-- 🟢 SAFE — LTV / lltvF < 80%
-- 🟡 WARNING — 80% ≤ LTV / lltvF < 90%
-- 🔴 DANGER — LTV / lltvF ≥ 90%
+- 🟢 SAFE — LTV / lltv < 80%
+- 🟡 WARNING — 80% ≤ LTV / lltv < 90%
+- 🔴 DANGER — LTV / lltv ≥ 90%
 
 **Correlated (adjusted):**
-- 🟢 SAFE — LTV / lltvF < 92%
-- 🟡 WARNING — 92% ≤ LTV / lltvF < 97%
-- 🔴 DANGER — LTV / lltvF ≥ 97%
+- 🟢 SAFE — LTV / lltv < 92%
+- 🟡 WARNING — 92% ≤ LTV / lltv < 97%
+- 🔴 DANGER — LTV / lltv ≥ 97%
 
 Append "(correlated)" / "(相關對)" for correlated positions.
 

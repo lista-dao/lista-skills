@@ -8,7 +8,9 @@ description: Calculate optimal leverage loop strategy and net APY for Lista Lend
 Simulate a leverage loop strategy: deposit collateral → borrow → re-deposit → repeat.
 
 **Input:** `<collateral_asset> <borrow_asset> <initial_amount> [target_loops]`
-**API base:** `https://api.lista.org/api/moolah`
+
+**MCP server:** lista-mcp-server
+→ Endpoint: `http://localhost:3001/mcp` ← REPLACE with production URL
 
 ---
 
@@ -35,25 +37,28 @@ Remember the answer and use it for all output generated below.
 
 ## Step 1 — Find the relevant market
 
-```bash
-curl -s "https://api.lista.org/api/moolah/vault/list?pageSize=100"
+```
+lista_get_borrow_markets({ keyword: "<collateral_asset>", pageSize: 50 })
 ```
 
-Filter vaults where `assetSymbol == <borrow_asset>`. For each, fetch allocations (`response.data.list`):
+Find the market where `collateral == <collateral_asset>` and `loan == <borrow_asset>`. From the matching market, collect:
+- `rate` — borrow APY (decimal)
+- `lltv` — liquidation LTV (decimal)
+- `id` — market identifier
 
-```bash
-curl -s "https://api.lista.org/api/moolah/vault/allocation?address=<VAULT>&pageSize=100"
-```
-
-Find the allocation where `collateralSymbol == <collateral_asset>`. Collect `borrowRate` and `id`. Then get LLTV from the market API:
-
-```bash
-curl -s "https://api.lista.org/api/moolah/market/<MARKET_ID>"
-```
+If no matching market found, inform the user and list available markets for the collateral asset.
 
 ## Step 2 — Get collateral native yield
 
-- slisBNB, ankrBNB, BNBx: ~4–5% staking APY (check latest from Lista staking or CoinGecko)
+For slisBNB, ankrBNB, wstBNB, BNBx:
+
+```
+lista_get_staking_info()
+```
+
+Use the returned staking APR/APY as native yield.
+
+For other assets:
 - PT tokens: use fixed rate from `terms.apy` in market response
 - BTCB, stablecoins: 0% native yield
 
@@ -61,7 +66,7 @@ curl -s "https://api.lista.org/api/moolah/market/<MARKET_ID>"
 
 Variables:
 - `P_c` = collateral price (USD), `P_b` = borrow price (USD)
-- `r` = `borrowRate` (annual), `y` = native yield (annual)
+- `r` = `rate` (annual), `y` = native yield (annual)
 - `L` = LLTV, `targetLTV` = 0.70 (conservative default)
 
 ```

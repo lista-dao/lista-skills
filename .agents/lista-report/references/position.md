@@ -4,21 +4,27 @@
 
 Generates a full position report with collateral, debt, health factor, LTV, liquidation price, and strategy recommendations.
 
-## A.1 — Discover active markets
+## A.1 — Fetch position data
 
-Run once per address:
+Run once per address using MCP:
 
-```bash
-curl -s "https://api.lista.org/api/moolah/one/holding?userAddress=<address>&type=market"
+```
+lista_get_position({ wallet: "<address>" })
+lista_get_borrow_markets({ pageSize: 50 })
 ```
 
-Response shape: `{ code, msg, data: { objs: [...] } }`. Each entry in `objs` has: `marketId`, `collateralSymbol`, `loanSymbol`, `collateralToken`, `loanToken`, `collateralPrice`, `loanPrice`, `zone`, `termType`.
+`lista_get_position` returns:
+- **holdings.objs[]** — active markets with `marketId`, `collateralSymbol`, `loanSymbol`, `collateralPrice`, `loanPrice`, `zone`, `termType`
+- **collaterals[]** — per-market: `address` (marketId), `amount`, `usdValue`
+- **borrows[]** — per-market: `address` (marketId), `amount` (pre-computed debt), `usdValue`
 
-If `objs` is empty → "No active positions."
+`lista_get_borrow_markets` provides `lltv` per market (match by market ID).
 
-## A.2 — Fetch on-chain amounts and compute metrics
+If `holdings.objs` is empty → "No active positions."
 
-For each active market from A.1, fetch on-chain position data and compute metrics per `references/computation.md`. The holding API already provides `collateralPrice` and `loanPrice` (USD) — use these instead of making separate price-fetching calls.
+## A.2 — Compute metrics
+
+Join data by marketId and compute per `references/computation.md`. Amounts are human-readable — no 1e18 conversion needed.
 
 ## A.3 — Recommendations
 
