@@ -1,8 +1,6 @@
 # Lista Lending Agent Skills
 
-LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — daily DeFi workflows on BSC, powered by live on-chain data.
-
-Skills live in `skills/` and follow the `npx skills` standard format.
+LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — daily DeFi workflows on BSC, powered by live on-chain data via MCP.
 
 ## Skills
 
@@ -10,7 +8,7 @@ Skills live in `skills/` and follow the `npx skills` standard format.
 |---|---|
 | `/lista-report <wallet(s)>` | Report hub: position status, market overview, yield scan, risk check, daily digest |
 | `/lista-yield [asset]` | Scan best yield opportunities across all Lista vaults |
-| `/lista-loop <asset> <amount> [loops]` | Calculate optimal leverage loop strategy & net APY |
+| `/lista-loop <collateral> <borrow> <amount>` | Calculate optimal leverage loop strategy & net APY |
 | `/lista-market` | Daily protocol digest: TVL, utilization, top vaults |
 
 ### lista-report sub-reports
@@ -26,7 +24,7 @@ Skills live in `skills/` and follow the `npx skills` standard format.
 ## Repository Structure
 
 ```
-skills/                       # Canonical skill files (npx skills format)
+.agents/
 ├── lista-report/
 │   ├── SKILL.md              # Orchestrator: language, format rules, menu, dispatch
 │   ├── REFERENCE.md          # Index of reference files
@@ -38,12 +36,12 @@ skills/                       # Canonical skill files (npx skills format)
 │       ├── risk.md           # Report 4: risk check templates + push setup
 │       └── digest.md         # Report 5: daily digest templates + subscription
 ├── lista-loop/
-├── lista-market/
-├── lista-yield/
-└── scripts/moolah.js         # Shared Node.js RPC helper (no external deps)
-
-.agents/                      # Backward compatibility (mirrors skills/)
+│   └── SKILL.md              # Loop strategy calculator
+└── scripts/
+    └── moolah.js             # Node.js RPC helper (fallback only, no external deps)
 ```
+
+> `lista-market` and `lista-yield` are distributed as user-settings skills (not tracked as files in this repo).
 
 ## Installation
 
@@ -79,8 +77,8 @@ npx add-skill lista-dao/skills
 /lista-report                               # pick from 5 report types
 /lista-yield BNB
 /lista-yield USD1
-/lista-loop slisBNB BNB 10
-/lista-loop BTCB BNB 0.5 3
+/lista-loop slisBNB WBNB 10
+/lista-loop BTCB USD1 0.5
 /lista-market
 ```
 
@@ -88,20 +86,22 @@ Language and wallet address are saved locally (`~/.lista/`) on first run — no 
 
 ## How It Works
 
-Each skill is a plain markdown prompt file. Any LLM tool that loads markdown slash commands from a directory can use these skills directly.
+Each skill is a plain markdown prompt file. The LLM loads the relevant skill and fetches live data using **Lista MCP tools**:
 
-1. Call the **Lista REST API** (`https://api.lista.org/api/moolah`) for vault and market data
-2. Call the **BSC RPC** (`https://bsc-dataseed.bnbchain.org`) for user-specific on-chain position data
-3. Perform calculations and format results into a clean report
+1. **`lista_get_position`** — wallet positions, collateral, debt, prices
+2. **`lista_get_borrow_markets`** — market rates, LLTV, liquidity, supply APY
+3. **`lista_get_lending_vaults`** — vault APY, TVL, per-market allocation weights
+4. **`lista_get_oracle_price`** — token and LP price (ERC20, LST, Smart Lending LP)
+5. **`lista_get_staking_info`** — slisBNB / BNB-LST native staking yield
 
-No backend infrastructure required — skills work out of the box using the LLM's Bash/shell tool.
+No backend infrastructure required. `moolah.js` is available as a last-resort fallback for direct RPC access when MCP is unavailable.
 
 SKILL.md uses progressive disclosure: it's a compact orchestrator that dispatches to reference files in `references/` on demand, so the LLM only loads what it needs for the selected report type.
 
 ## Data Sources
 
-- **Lista REST API:** `https://api.lista.org/api/moolah`
-- **BSC RPC:** `https://bsc-dataseed.bnbchain.org`
+- **Lista MCP:** `lista_get_position`, `lista_get_borrow_markets`, `lista_get_lending_vaults`, `lista_get_oracle_price`, `lista_get_staking_info`
+- **BSC RPC (fallback):** `https://bsc-dataseed.bnbchain.org` via `moolah.js`
 - **Smart Contracts:** See [docs/rpc-reference.md](docs/rpc-reference.md) for all contract addresses
 
 ## Docs
