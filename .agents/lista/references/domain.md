@@ -1,8 +1,8 @@
 > Follow the FORMAT ENFORCEMENT rules from SKILL.md. Output must match templates character-for-character.
 
-# Shared Computation
+# Shared Domain Logic
 
-Referenced by Reports A, D, E for position discovery, price fetching, and metric computation.
+Referenced by Reports A, D, E, F for position discovery, price fetching, and metric computation.
 
 ## Step 1 — Fetch position data (MCP)
 
@@ -45,11 +45,35 @@ Stop paginating once all active market LLTVs are found.
 
 **moolah.js fallback** (if MCP is unavailable):
 ```bash
-node .agents/scripts/moolah.js params <marketId>
+node .agents/lista/scripts/moolah.js params <marketId>
 # Returns: loanToken, collateralToken, oracle, irm, lltv, lltvPct
 ```
 
 Smart Lending detection: `collateralSymbol` contains `&` (e.g. "slisBNB & BNB"). Label as `slisBNB/BNB LP` in output.
+
+## Token price resolution
+
+**Stablecoins** (U, USD1, USDT, USDC, lisUSD): use `P = 1.00` directly — skip all calls.
+
+For other tokens, try in order until one succeeds:
+
+1. **Position data** (if user has an active position in the market):
+   ```
+   lista_get_position({ wallet: "<address>" })
+   ```
+   Use `holdings[].collateralPrice` / `loanPrice` for the matching `marketId`.
+
+2. **MCP oracle** (supports ERC20, LST, and Smart Lending LP tokens):
+   ```
+   lista_get_oracle_price({ tokenAddress: <tokenAddress> })
+   ```
+   Use the returned `price` if `found: true`.
+
+3. **moolah.js** (last resort — only if MCP is unavailable):
+   ```bash
+   node .agents/lista/scripts/moolah.js token-price <tokenAddress>
+   node .agents/lista/scripts/moolah.js lp-price <marketId>   # Smart Lending LP
+   ```
 
 ## Zone definitions
 

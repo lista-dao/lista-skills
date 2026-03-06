@@ -1,61 +1,17 @@
----
-name: lista-loop
-description: Calculate optimal leverage loop strategy and net APY for Lista Lending
----
+> Follow the FORMAT ENFORCEMENT rules from SKILL.md. Output must match templates character-for-character.
 
-# Lista Lending — Loop Strategy Calculator
+# Report F — Loop Strategy
 
 Simulate a leverage loop strategy: deposit collateral → borrow → re-deposit → repeat.
 
-**Input:** `<collateral_asset> <borrow_asset> <initial_amount> [target_loops]`
+**Input:** The user must provide `<collateral_asset> <borrow_asset> <initial_amount> [target_loops]`.
 
-**MCP tools:** `lista_get_borrow_markets`, `lista_get_oracle_price`, `lista_get_staking_info`, `lista_get_position`
+If not already provided, ask:
 
-**First-run check:** If any `lista_*` MCP tool call fails with a connection error, the Lista MCP server is not configured. Guide the user:
+> **EN:** What collateral asset, borrow asset, and initial amount? (e.g. slisBNB WBNB 10)
+> **中文：** 請提供抵押品、借款資產和初始數量（例如 slisBNB WBNB 10）
 
-> Lista MCP server is not connected. To set it up:
->
-> **Claude Code:**
-> ```
-> claude mcp add lista --transport sse https://localhost:3001/mcp
-> ```
->
-> **OpenClaw** — add to `openclaw.json`:
-> ```json
-> { "mcpServers": { "lista": { "transport": "streamable-http", "url": "https://localhost:3001/mcp" } } }
-> ```
->
-> **Other MCP clients:** Add to your MCP config:
-> ```json
-> { "mcpServers": { "lista": { "url": "https://localhost:3001/mcp" } } }
-> ```
->
-> Then restart your session and try again.
-
----
-
-## BEFORE ANYTHING ELSE — Ask for language
-
-Do NOT run any commands until the user has answered this question:
-
-> Which language should I use for the output?
-> 請問輸出以哪種語言生成？
->   1) English
->   2) 简体中文
->   3) 繁體中文
->   4) Other (specify)
-
-**Language handling rules:**
-- **1 / English** — use the English format template exactly.
-- **2 / 简体中文** — use the 繁體中文 format template, then convert all Traditional Chinese characters to Simplified Chinese. Do NOT alter any numbers, symbols, separators, or field layout.
-- **3 / 繁體中文** — use the 繁體中文 format template exactly.
-- **4 / Other** — translate all label text into the requested language. Keep every separator line, number format, and indentation identical to the English template. Do NOT add bullet points or reformat rows.
-
-Remember the answer and use it for all output generated below.
-
----
-
-## Step 1 — Find the relevant market
+## F.1 — Find the relevant market
 
 The `keyword` parameter of `lista_get_borrow_markets` filters by **loan token name**,
 not collateral name. Search by the borrow asset, then filter by collateral:
@@ -74,31 +30,11 @@ From the returned list, find the entry where `collateral == <collateral_asset>`.
 If no matching market is found, paginate (`page: 2`, `page: 3`) or drop the keyword
 filter and scan all markets. Inform the user if the market still cannot be found.
 
-## Step 1.5 — Fetch token prices
+## F.2 — Fetch token prices
 
-**Stablecoins** (U, USD1, USDT, USDC, lisUSD): use `P = 1.00` directly — skip all calls.
+Use the **Token price resolution** section in `domain.md` to get collateral and loan prices.
 
-**Collateral price — try in order until one succeeds:**
-
-1. **If the user has an active position in this market**, call:
-   ```
-   lista_get_position({ wallet: "<address>" })
-   ```
-   Use `holdings[].collateralPrice` for the matching `marketId`. Most reliable.
-
-2. **MCP oracle** (supports ERC20, LST, and Smart Lending LP tokens):
-   ```
-   lista_get_oracle_price({ tokenAddress: <collateralToken> })
-   ```
-   Use the returned `price` if `found: true`.
-
-3. **moolah.js** (last resort — only if MCP is unavailable):
-   ```bash
-   node .agents/scripts/moolah.js token-price <collateralToken>
-   node .agents/scripts/moolah.js lp-price <marketId>   # Smart Lending LP
-   ```
-
-## Step 2 — Get collateral native yield
+## F.3 — Get collateral native yield
 
 For slisBNB, ankrBNB, wstBNB, BNBx:
 
@@ -112,7 +48,7 @@ For other assets:
 - PT tokens: use fixed rate from `terms.apy` in market response
 - BTCB, stablecoins: 0% native yield
 
-## Step 3 — Simulate loops
+## F.4 — Simulate loops
 
 Variables:
 - `P_c` = collateral price (USD), `P_b` = borrow price (USD)
@@ -144,18 +80,9 @@ buffer      = (P_c − liqPrice) / P_c × 100%
 
 Recommend the loop count that maximises net APY while keeping buffer ≥ 20%.
 
----
+## F.5 — Output template
 
-## Step 4 — Generate output
-
-**STRICT FORMAT RULES — follow exactly, no exceptions:**
-- Copy the template below character-for-character, including separator lines (━━━, ────, │).
-- Use the exact column headers shown. Do NOT rename, reorder, or omit any column.
-- Use `- - - - -` between the table and the recommendation block.
-- Plain text only — no markdown bold/italics. Intended for Telegram/Discord paste.
-- Note: In the templates below, ＄ represents $. Use the regular $ in actual output.
-
-### English format
+### English
 
 ```
 Lista Lending — Loop Strategy: slisBNB/WBNB
@@ -183,7 +110,7 @@ Loops │ Collateral      │ Debt          │ Leverage │ Net APY │ Liq Pri
 Data: api.lista.org  |  BSC Mainnet
 ```
 
-### 繁體中文格式
+### 繁體中文
 
 ```
 Lista Lending — 槓桿策略：slisBNB/WBNB

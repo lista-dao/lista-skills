@@ -1,11 +1,11 @@
 ---
-name: lista-report
-description: Lista Lending report hub — position status, market overview, yield scan, liquidation risk check, and daily digest on BSC
+name: lista
+description: Lista Lending assistant — position report, market overview, yield scan, liquidation risk check, daily digest, and loop strategy on BSC
 ---
 
-# Lista Lending — Report Hub
+# Lista Lending
 
-Generate reports for Lista Lending (Moolah) on BSC. Choose a report type below.
+Your Lista Lending (Moolah) assistant on BSC. Choose a function below.
 
 **MCP tools:** `lista_get_position`, `lista_get_borrow_markets`, `lista_get_lending_vaults`, `lista_get_oracle_price`, `lista_get_staking_info`, `lista_get_dashboard`, `lista_get_rewards`
 
@@ -99,14 +99,17 @@ Ask the user (or infer from their request):
 >   3) Vault Yield — APY, TVL, underlying assets per vault
 >   4) Risk Check — liquidation risk alerts with thresholds
 >   5) Daily Digest — positions + yield + market snapshot
+>   6) Loop Strategy — leverage loop simulation, net APY, liquidation risk
 
-If the user's original message already implies a type (e.g. "check my positions" → 1, "USDT borrow rate" → 2, "vault APY" → 3, "am I safe" → 4, "daily report" → 5), skip the question and proceed directly.
+If the user's original message already implies a type (e.g. "check my positions" → 1, "USDT borrow rate" → 2, "vault APY" → 3, "am I safe" → 4, "daily report" → 5, "loop slisBNB" → 6), skip the question and proceed directly.
 
 ---
 
 ## Step 2 — Wallet address (for types 1, 4, 5)
 
-Reports 1, 4, 5 require a wallet address. Reports 2, 3 do not — skip this step for them.
+Reports 1, 4, 5 require a wallet address. Reports 2, 3, 6 do not — skip this step for them.
+
+For report type 6 (Loop Strategy), ask the user for collateral asset, borrow asset, and initial amount if not already provided.
 
 ### Load saved address
 
@@ -146,14 +149,15 @@ The user may provide multiple addresses (comma/space/line separated). Save all t
 
 ## Step 3 — Dispatch
 
-Read `REFERENCE.md` for the file index, then read the specific reference files for the selected report type:
+Read the specific reference files for the selected report type:
 
 | Report type | Read these files |
 |---|---|
-| 1 — Position Report | `references/computation.md`, `references/position.md` |
+| 1 — Position Report | `references/domain.md`, `references/position.md` |
 | 2 — Market Lending Rates | `references/market.md` |
 | 3 — Vault Yield | `references/yield.md` |
-| 4 — Risk Check | `references/computation.md`, `references/risk.md` |
-| 5 — Daily Digest | `references/computation.md`, `references/digest.md` |
+| 4 — Risk Check | `references/domain.md`, `references/risk.md` |
+| 5 — Daily Digest | `references/domain.md`, `references/digest.md` |
+| 6 — Loop Strategy | `references/domain.md`, `references/loop.md` |
 
 Follow the instructions in the referenced files to fetch data, compute metrics, and generate the report using the selected language.

@@ -6,12 +6,8 @@
   "skillsDir": ".agents",
   "skills": [
     {
-      "command": "lista-report",
-      "description": "Unified Lista Lending report — position report, market overview, yield opportunities, risk check, daily digest"
-    },
-    {
-      "command": "lista-loop",
-      "description": "Calculate optimal leverage loop strategy & net APY for a given asset"
+      "command": "lista",
+      "description": "Lista Lending assistant — position report, market overview, yield scan, risk check, daily digest, loop strategy"
     }
   ]
 }

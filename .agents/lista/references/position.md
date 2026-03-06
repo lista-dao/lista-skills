@@ -26,7 +26,7 @@ Match each returned market by `id` to the user's active market IDs. Use the `llt
 
 ## A.2 — Compute metrics
 
-Join data by marketId and compute per `references/computation.md`. Amounts are human-readable — no 1e18 conversion needed.
+Join data by marketId and compute per `references/domain.md`. Amounts are human-readable — no 1e18 conversion needed.
 
 ## A.3 — Recommendations
 

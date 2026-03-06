@@ -6,10 +6,9 @@ LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — dai
 
 | Command | Description |
 |---|---|
-| `/lista-report <wallet(s)>` | Report hub: position status, market overview, yield scan, risk check, daily digest |
-| `/lista-loop <collateral> <borrow> <amount>` | Calculate optimal leverage loop strategy & net APY |
+| `/lista` | Lista Lending assistant: position report, market overview, yield scan, risk check, daily digest, loop strategy |
 
-### lista-report sub-reports
+### Functions
 
 | # | Report | Wallet required |
 |---|---|---|
@@ -18,28 +17,26 @@ LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — dai
 | 3 | Yield Opportunities — best deposit APY across vaults | No |
 | 4 | Risk Check — liquidation risk alerts with configurable thresholds | Yes |
 | 5 | Daily Digest — positions + yield + market snapshot in one report | Yes |
+| 6 | Loop Strategy — leverage loop simulation, net APY, liquidation risk | No |
 
 ## Repository Structure
 
 ```
 .agents/
-├── lista-report/
-│   ├── SKILL.md              # Orchestrator: language, format rules, menu, dispatch
-│   ├── REFERENCE.md          # Index of reference files
-│   └── references/
-│       ├── computation.md    # Shared: price fetching, metrics, correlated pairs, risk levels
-│       ├── position.md       # Report 1: position report templates (EN + 中文)
-│       ├── market.md         # Report 2: market overview templates
-│       ├── yield.md          # Report 3: yield opportunities templates
-│       ├── risk.md           # Report 4: risk check templates + push setup
-│       └── digest.md         # Report 5: daily digest templates + subscription
-├── lista-loop/
-│   └── SKILL.md              # Loop strategy calculator
-└── scripts/
-    └── moolah.js             # Node.js RPC helper (fallback only, no external deps)
+└── lista/
+    ├── SKILL.md              # Orchestrator: language, format rules, menu, dispatch
+    ├── references/
+    │   ├── domain.md         # Shared: price resolution, metrics, correlated pairs, risk levels
+    │   ├── position.md       # Report 1: position report templates (EN + 中文)
+    │   ├── market.md         # Report 2: market overview templates
+    │   ├── yield.md          # Report 3: yield opportunities templates
+    │   ├── risk.md           # Report 4: risk check templates + push setup
+    │   ├── digest.md         # Report 5: daily digest templates + subscription
+    │   └── loop.md           # Report 6: loop strategy simulation + templates
+    └── scripts/
+        └── moolah.js         # Node.js RPC helper (fallback only, no external deps)
 ```
 
-> `lista-market` and `lista-yield` are distributed as user-settings skills (not tracked as files in this repo).
 
 ## Setup
 
@@ -86,7 +83,7 @@ claude mcp add lista --transport sse https://localhost:3001/mcp
 npx skills add lista-dao/skills
 
 # Install specific skills only
-npx skills add lista-dao/skills --skill lista-report
+npx skills add lista-dao/skills --skill lista
 
 # List available skills first
 npx skills add lista-dao/skills --list
@@ -106,11 +103,9 @@ npx add-skill lista-dao/skills
 ## Usage Examples
 
 ```
-/lista-report 0xYourWalletAddress          # position report (default)
-/lista-report 0xWallet1 0xWallet2          # multi-wallet
-/lista-report                               # pick from 5 report types
-/lista-loop slisBNB WBNB 10
-/lista-loop BTCB USD1 0.5
+/lista 0xYourWalletAddress          # position report (default)
+/lista 0xWallet1 0xWallet2          # multi-wallet
+/lista                               # pick from 6 report types
 ```
 
 Language and wallet address are saved locally (`~/.lista/`) on first run — no need to re-enter.
@@ -133,12 +128,6 @@ SKILL.md uses progressive disclosure: it's a compact orchestrator that dispatche
 
 - **Lista MCP:** `lista_get_position`, `lista_get_borrow_markets`, `lista_get_lending_vaults`, `lista_get_oracle_price`, `lista_get_staking_info`
 - **BSC RPC (fallback):** `https://bsc-dataseed.bnbchain.org` via `moolah.js`
-- **Smart Contracts:** See [docs/rpc-reference.md](docs/rpc-reference.md) for all contract addresses
-
-## Docs
-
-- [API Reference](docs/api-reference.md) — REST endpoints with curl examples
-- [RPC Reference](docs/rpc-reference.md) — Moolah ABI, eth_call examples, contract addresses
 
 ## About Lista Lending
 

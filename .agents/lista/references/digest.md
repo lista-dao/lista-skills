@@ -6,7 +6,7 @@ Position overview + estimated yield + market snapshot in one report.
 
 ## E.1 — Fetch data
 
-Positions: same as Report A step A.1, metrics via `references/computation.md` (MCP-based).
+Positions: same as Report A step A.1, metrics via `references/domain.md` (MCP-based).
 
 Vaults:
 ```
