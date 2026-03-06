@@ -7,9 +7,7 @@ LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — dai
 | Command | Description |
 |---|---|
 | `/lista-report <wallet(s)>` | Report hub: position status, market overview, yield scan, risk check, daily digest |
-| `/lista-yield [asset]` | Scan best yield opportunities across all Lista vaults |
 | `/lista-loop <collateral> <borrow> <amount>` | Calculate optimal leverage loop strategy & net APY |
-| `/lista-market` | Daily protocol digest: TVL, utilization, top vaults |
 
 ### lista-report sub-reports
 
@@ -75,11 +73,8 @@ npx add-skill lista-dao/skills
 /lista-report 0xYourWalletAddress          # position report (default)
 /lista-report 0xWallet1 0xWallet2          # multi-wallet
 /lista-report                               # pick from 5 report types
-/lista-yield BNB
-/lista-yield USD1
 /lista-loop slisBNB WBNB 10
 /lista-loop BTCB USD1 0.5
-/lista-market
 ```
 
 Language and wallet address are saved locally (`~/.lista/`) on first run — no need to re-enter.
