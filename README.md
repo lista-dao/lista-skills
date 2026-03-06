@@ -41,9 +41,33 @@ LLM-agnostic agent skills for [Lista Lending](https://lista.org/lending) — dai
 
 > `lista-market` and `lista-yield` are distributed as user-settings skills (not tracked as files in this repo).
 
-## Installation
+## Setup
 
-### Via npx skills (recommended)
+### 1. Connect the Lista MCP server
+
+Skills fetch live data via MCP (Model Context Protocol). Add the Lista MCP server to your LLM tool:
+
+**Claude Code** — run once:
+```bash
+claude mcp add lista --transport sse https://localhost:3001/mcp
+```
+
+**Cursor / other MCP clients** — add to your MCP config file:
+```json
+{
+  "mcpServers": {
+    "lista": {
+      "url": "https://localhost:3001/mcp"
+    }
+  }
+}
+```
+
+> Replace the URL above with the production endpoint if provided by Lista.
+
+### 2. Install skills
+
+#### Via npx skills (recommended)
 
 ```bash
 # Install all skills
@@ -61,7 +85,7 @@ npx skills add lista-dao/skills -g
 
 Supports: Claude Code, Codex, Cursor, OpenCode, Gemini CLI, and 30+ more agents.
 
-### Via add-skill (alternative)
+#### Via add-skill (alternative)
 
 ```bash
 npx add-skill lista-dao/skills

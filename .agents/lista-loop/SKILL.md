@@ -9,8 +9,23 @@ Simulate a leverage loop strategy: deposit collateral → borrow → re-deposit 
 
 **Input:** `<collateral_asset> <borrow_asset> <initial_amount> [target_loops]`
 
-**MCP server:** lista-mcp-server
-→ Endpoint: `http://localhost:3001/mcp` ← REPLACE with production URL
+**MCP tools:** `lista_get_borrow_markets`, `lista_get_oracle_price`, `lista_get_staking_info`, `lista_get_position`
+
+**First-run check:** If any `lista_*` MCP tool call fails with a connection error, the Lista MCP server is not configured. Guide the user:
+
+> Lista MCP server is not connected. To set it up:
+>
+> **Claude Code:**
+> ```
+> claude mcp add lista --transport sse https://localhost:3001/mcp
+> ```
+>
+> **Other MCP clients:** Add to your MCP config:
+> ```json
+> { "mcpServers": { "lista": { "url": "https://localhost:3001/mcp" } } }
+> ```
+>
+> Then restart your session and try again.
 
 ---
 
