@@ -20,6 +20,11 @@ Simulate a leverage loop strategy: deposit collateral → borrow → re-deposit 
 > claude mcp add lista --transport sse https://localhost:3001/mcp
 > ```
 >
+> **OpenClaw** — add to `openclaw.json`:
+> ```json
+> { "mcpServers": { "lista": { "transport": "streamable-http", "url": "https://localhost:3001/mcp" } } }
+> ```
+>
 > **Other MCP clients:** Add to your MCP config:
 > ```json
 > { "mcpServers": { "lista": { "url": "https://localhost:3001/mcp" } } }

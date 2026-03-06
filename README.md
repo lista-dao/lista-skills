@@ -52,6 +52,18 @@ Skills fetch live data via MCP (Model Context Protocol). Add the Lista MCP serve
 claude mcp add lista --transport sse https://localhost:3001/mcp
 ```
 
+**OpenClaw** — add to `openclaw.json`:
+```json
+{
+  "mcpServers": {
+    "lista": {
+      "transport": "streamable-http",
+      "url": "https://localhost:3001/mcp"
+    }
+  }
+}
+```
+
 **Cursor / other MCP clients** — add to your MCP config file:
 ```json
 {
