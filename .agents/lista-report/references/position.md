@@ -10,17 +10,19 @@ Run once per address using MCP:
 
 ```
 lista_get_position({ wallet: "<address>" })
-lista_get_borrow_markets({ pageSize: 50 })
 ```
 
-`lista_get_position` returns:
-- **holdings.objs[]** — active markets with `marketId`, `collateralSymbol`, `loanSymbol`, `collateralPrice`, `loanPrice`, `zone`, `termType`
-- **collaterals[]** — per-market: `address` (marketId), `amount`, `usdValue`
-- **borrows[]** — per-market: `address` (marketId), `amount` (pre-computed debt), `usdValue`
-
-`lista_get_borrow_markets` provides `lltv` per market (match by market ID).
+Returns `holdings.objs[]` (active markets with `marketId`, `collateralSymbol`, `loanSymbol`, `collateralPrice`, `loanPrice`, `zone`, `termType`), `collaterals[]` (per-market amount/usdValue), and `borrows[]` (per-market pre-computed debt amount/usdValue).
 
 If `holdings.objs` is empty → "No active positions."
+
+Then fetch LLTV per unique loan token — use `keyword` to avoid fetching all 100+ markets:
+
+```
+lista_get_borrow_markets({ keyword: "<loanSymbol>", pageSize: 50 })
+```
+
+Match each returned market by `id` to the user's active market IDs. Use the `lltv` field. If a market is not found on page 1, paginate with `page: 2`.
 
 ## A.2 — Compute metrics
 

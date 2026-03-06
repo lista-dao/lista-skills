@@ -37,16 +37,62 @@ Remember the answer and use it for all output generated below.
 
 ## Step 1 — Find the relevant market
 
+The `keyword` parameter of `lista_get_borrow_markets` filters by **loan token name**,
+not collateral name. Search by the borrow asset, then filter by collateral:
+
 ```
-lista_get_borrow_markets({ keyword: "<collateral_asset>", pageSize: 50 })
+lista_get_borrow_markets({ keyword: "<borrow_asset>", pageSize: 50 })
 ```
 
-Find the market where `collateral == <collateral_asset>` and `loan == <borrow_asset>`. From the matching market, collect:
+From the returned list, find the entry where `collateral == <collateral_asset>`. Collect:
 - `rate` — borrow APY (decimal)
-- `lltv` — liquidation LTV (decimal)
+- `lltv` — liquidation LTV (decimal, e.g. "0.860000000000000000") — already in the response, no separate RPC call needed
 - `id` — market identifier
+- `collateralToken` — collateral token contract address
+- `loanToken` — loan token contract address
 
-If no matching market found, inform the user and list available markets for the collateral asset.
+If no matching market is found, paginate (`page: 2`, `page: 3`) or drop the keyword
+filter and scan all markets. Inform the user if the market still cannot be found.
+
+## Step 1.5 — Fetch token prices
+
+**Stablecoins** (U, USD1, USDT, USDC, lisUSD): use `P = 1.00` directly — skip all calls.
+
+**Collateral price — try in order until one succeeds:**
+
+1. **If the user has an active position in this market**, call:
+   ```
+   lista_get_position({ wallet: "<address>" })
+   ```
+   Use `holdings[].collateralPrice` for the matching `marketId`. Most reliable.
+
+2. **MCP oracle** (works for some tokens):
+   ```
+   lista_get_oracle_price({ tokenAddress: <collateralToken> })
+   ```
+   Use if `found: true`. Skip if `found: false` — many collateral tokens (slisBNB,
+   BTCB, LP tokens) are not in the oracle lookup and will return `found: false`.
+
+3. **REST API market detail** (fallback):
+   ```bash
+   curl -s "https://api.lista.org/api/moolah/market/<MARKET_ID>"
+   ```
+   The response includes `loanTokenPrice`. For collateral price, check if
+   `smartCollateralConfig` is set — if so, compute LP price from the Curve pool
+   (see moolah.js `lp-price` command). Otherwise use Chainlink/oracle links in
+   `collateralOracles[].url` as a reference or use moolah.js below.
+
+4. **moolah.js** (last resort — only if MCP and REST both fail):
+   ```bash
+   # ERC20 collateral — oracle price (1e36-scaled, divided by loan price):
+   node .agents/scripts/moolah.js oracle-price <marketId>
+
+   # Smart Lending LP collateral:
+   node .agents/scripts/moolah.js lp-price <marketId>
+
+   # Direct token USD price via Lista oracle:
+   node .agents/scripts/moolah.js token-price <collateralToken>
+   ```
 
 ## Step 2 — Get collateral native yield
 

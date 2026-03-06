@@ -21,7 +21,19 @@ Returns three sections:
 - **borrows[]** — per-market debt (pre-computed, not raw shares):
   - `address` (marketId), `assetSymbol`, `collateralSymbol`, `amount` (human-readable), `usdValue`
 
-Then fetch LLTV for each active market. Markets are paginated (max 50/page), so paginate until all needed IDs are found:
+Then fetch LLTV for each active market. The `keyword` parameter filters by **loan token
+name** — use each unique `loanSymbol` from holdings to fetch only relevant markets:
+
+```
+# Preferred: one call per unique loan token (loanSymbol from holdings[].loanSymbol)
+lista_get_borrow_markets({ keyword: "<loanSymbol>", pageSize: 50 })
+```
+
+Each market has `id` and `lltv` (decimal string, e.g. "0.860000000000000000"). Match
+by `id` to the user's active market IDs from holdings.
+
+If a market is still not found (e.g. unusual loan token), fall back to unfiltered
+pagination:
 
 ```
 lista_get_borrow_markets({ pageSize: 50, page: 1 })
@@ -29,7 +41,13 @@ lista_get_borrow_markets({ pageSize: 50, page: 2 })   # if needed
 lista_get_borrow_markets({ pageSize: 50, page: 3 })   # if needed
 ```
 
-Each market has `id` and `lltv` (decimal string, e.g. "0.860000000000000000"). Match by `id` to the user's active market IDs from holdings. Stop paginating once all active market LLTVs are found.
+Stop paginating once all active market LLTVs are found.
+
+**moolah.js fallback** (if MCP is unavailable):
+```bash
+node .agents/scripts/moolah.js params <marketId>
+# Returns: loanToken, collateralToken, oracle, irm, lltv, lltvPct
+```
 
 Smart Lending detection: `collateralSymbol` contains `&` (e.g. "slisBNB & BNB"). Label as `slisBNB/BNB LP` in output.
 
