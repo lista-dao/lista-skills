@@ -50,6 +50,14 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
+⚠️  Aster (Partner Assets)
+
+| # | Vault | Base APY | LISTA | Total APY | TVL | Util | Top Markets |
+|---|-------|----------|-------|-----------|-----|------|-------------|
+| 1 | ASTER Vault (ASTER) | 8.5% | 0% | 8.5% | ＄120K | 45% | ASTER/USDT 100% |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ⚡ Smart Lending  |  🔒 Fixed Rate
 
 Data: api.lista.org  |  BSC Mainnet
@@ -82,6 +90,14 @@ Notes:
 | # | 金庫 | 基礎年化 | LISTA | 總年化 | TVL | 利用率 | 底層市場 |
 |---|------|----------|-------|--------|-----|--------|----------|
 | 1 | WBTC 金庫（WBTC） | 14.2% | 0% | 14.2% | ＄420K | 78% | WBTC/USD1 100% |
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  Aster（合作夥伴資產）
+
+| # | 金庫 | 基礎年化 | LISTA | 總年化 | TVL | 利用率 | 底層市場 |
+|---|------|----------|-------|--------|-----|--------|----------|
+| 1 | ASTER 金庫（ASTER） | 8.5% | 0% | 8.5% | ＄120K | 45% | ASTER/USDT 100% |
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 

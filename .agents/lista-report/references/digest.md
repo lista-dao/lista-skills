@@ -13,9 +13,15 @@ Vaults:
 lista_get_lending_vaults({ pageSize: 50 })
 ```
 
-Yield estimation (no historical snapshot needed):
+Yield estimation:
 - `estimatedDailyYield = supplyUSD × vaultAPY / 365` per vault
 - `estimatedWeeklyYield = estimatedDailyYield × 7`
+
+Claimable rewards:
+```
+lista_get_rewards({ wallet: "<address>" })
+```
+Returns claimable rewards across all sources (LISTA emission, bribe, distributor). Show non-zero reward lines only.
 
 Market snapshot rate deltas:
 - If previous rate data is available (e.g. from a prior run), show change indicators: ↑, ↓, or "unchanged" / "持平"
@@ -34,17 +40,24 @@ Wallet: 0xAbCd...5678
 ─────────────────────
 #1 BTCB / U
 Collateral: 2.50 BTCB (~＄250,000)
-Debt: 100,000.00 U (~＄100,000)
+Borrowed: 100,000.00 U (~＄100,000)
 Health factor: 2.15 ✅
 LTV: 40.0% / LLTV: 86.0%
 Liq. price: ＄46,511 / BTCB (current: ＄100,000)
 
 ─────────────────────
 
-💰 Estimated Yield (at current APY)
+💰 Yield Summary
 WBNB Vault: ~＄2.31/day (12.4% APY on ＄6,800 supply)
 USD1 Vault: ~＄0.87/day (5.6% APY on ＄5,670 supply)
 Daily total: ~＄3.18 | Weekly: ~＄22.26
+
+─────────────────────
+
+🎁 Claimable Rewards
+LISTA emission: 12.5 LISTA (~＄3.80)
+Bribe rewards: 0.02 BNB (~＄12.40)
+Total claimable: ~＄16.20
 
 ─────────────────────
 
@@ -85,17 +98,24 @@ Repay debt or add collateral immediately.
 ─────────────────────
 #1 BTCB / U
 抵押品：2.50 BTCB（約 ＄250,000）
-負債：100,000.00 U（約 ＄100,000）
+已借出：100,000.00 U（約 ＄100,000）
 健康係數：2.15 ✅
 LTV：40.0% / 清算線：86.0%
 清算價格：＄46,511 / BTCB（當前價：＄100,000）
 
 ─────────────────────
 
-💰 預估收益（按當前年化）
+💰 收益匯總
 WBNB 金庫：約 ＄2.31/日（12.4% 年化，供款 ＄6,800）
 USD1 金庫：約 ＄0.87/日（5.6% 年化，供款 ＄5,670）
 每日合計：約 ＄3.18 | 每週：約 ＄22.26
+
+─────────────────────
+
+🎁 可領取獎勵
+LISTA 排放：12.5 LISTA（約 ＄3.80）
+賄賂獎勵：0.02 BNB（約 ＄12.40）
+可領取合計：約 ＄16.20
 
 ─────────────────────
 
