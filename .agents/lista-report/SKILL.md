@@ -11,8 +11,6 @@ Generate reports for Lista Lending (Moolah) on BSC. Choose a report type below.
 → Tools: `lista_get_position`, `lista_get_borrow_markets`, `lista_get_lending_vaults`, `lista_get_oracle_price`, `lista_get_staking_info`, `lista_get_dashboard`, `lista_get_rewards`
 → Endpoint: `http://localhost:3001/mcp` ← REPLACE with production URL
 
-**API fallback:** `https://api.lista.org/api/moolah` (vault allocation only)
-
 ---
 
 ## Step 0 — Language

@@ -10,24 +10,18 @@ Query each Vault's current APY, TVL, and underlying market allocations.
 lista_get_lending_vaults({ pageSize: 50 })
 ```
 
-Returns per vault: `address`, `name`, `apy`, `emissionApy`, `emissionEnabled`, `depositsUsd`, `assetSymbol`, `collaterals` (market list), `utilization`, `zone`.
+Returns per vault: `address`, `name`, `apy`, `emissionApy`, `emissionEnabled`, `depositsUsd`, `assetSymbol`, `zone`, and `collaterals[]`.
+
+Each `collaterals[]` entry has: `id` (marketId), `name` (collateral symbol), `loanSymbol`, `allocation` (decimal weight, e.g. 0.44 = 44%).
 
 If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `keyword` parameter to filter.
-
-For each vault's "Top Markets" allocation weights, fetch:
-
-```bash
-curl -s "https://api.lista.org/api/moolah/vault/allocation?address=<VAULT>&pageSize=100"
-```
-
-Each allocation entry has: `collateralSymbol`, `loanSymbol`, `allocation` (decimal weight, 0.44 = 44%), `smartCollateralConfig`, `termType`.
 
 ## C.2 — Compute
 
 - `totalApy = apy + (emissionApy if emissionEnabled else 0)`
 - Sort by `totalApy` descending within each zone.
 - Group by zone: 0=Classic, 1=Alpha, 4=Aster.
-- For each vault, list top 3 underlying markets by `allocation` weight from the allocation API.
+- For each vault, list top 3 underlying markets by `allocation` weight from `collaterals[]`.
 
 ## C.3 — Output template
 
