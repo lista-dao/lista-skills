@@ -51,6 +51,19 @@ node .agents/scripts/moolah.js params <marketId>
 
 Smart Lending detection: `collateralSymbol` contains `&` (e.g. "slisBNB & BNB"). Label as `slisBNB/BNB LP` in output.
 
+## Zone definitions
+
+| Zone | ID | Description |
+|---|---|---|
+| Classic | 0 | Audited, standard risk |
+| Alpha | 1 | Higher risk/reward, emerging assets |
+| Smart Lending | 3 | LP collateral (DEX liquidity + lending) |
+| Aster | 4 | Partner assets |
+
+**MCP zone filter support:**
+- `lista_get_lending_vaults({ zone: 0 })` — filter vaults by zone. Default: all zones.
+- `lista_get_borrow_markets({ zone: "0,3" })` — filter markets by zone. Default: `"0,3"` (Classic + Smart Lending). Pass `"0,1,3,4"` to include Alpha and Aster.
+
 ## Step 2 — Metric computation
 
 All amounts from MCP are human-readable (not raw 1e18). No precision conversion needed.

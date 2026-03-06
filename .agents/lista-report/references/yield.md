@@ -20,7 +20,7 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 - `totalApy = apy + (emissionApy if emissionEnabled else 0)`
 - Sort by `totalApy` descending within each zone.
-- Group by zone: 0=Classic, 1=Alpha, 4=Aster.
+- Group by zone: 0=Classic, 3=Smart Lending, 1=Alpha, 4=Aster (see `computation.md` for zone definitions).
 - For each vault, list top 3 underlying markets by `allocation` weight from `collaterals[]`.
 
 ## C.3 — Output template

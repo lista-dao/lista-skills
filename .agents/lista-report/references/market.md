@@ -10,6 +10,8 @@ Query real-time Supply APY and Borrow APY for each lending market.
 lista_get_borrow_markets({ pageSize: 50 })
 ```
 
+Default returns Classic (zone=0) + Smart Lending (zone=3) markets. To include Alpha and Aster, pass `zone: "0,1,3,4"`.
+
 Returns per market:
 - `id` — market identifier
 - `collateral` / `loan` — asset symbols
@@ -17,7 +19,8 @@ Returns per market:
 - `rate` — borrow-side APY (decimal)
 - `liquidity` — available liquidity (token amount)
 - `liquidityUsd` — available liquidity in USD
-- `smartCollateralConfig` — non-empty for Smart Lending markets
+- `zone` — 0=Classic, 1=Alpha, 3=Smart Lending, 4=Aster
+- `smartCollateralConfig` — non-empty for Smart Lending markets (zone=3)
 - `termType` — 0 = variable, non-zero = fixed rate
 - `lltv` — liquidation LTV
 
