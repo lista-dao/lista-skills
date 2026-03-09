@@ -46,7 +46,7 @@ Skills fetch live data via MCP (Model Context Protocol). Add the Lista MCP serve
 
 **Claude Code** — run once:
 ```bash
-claude mcp add lista --transport sse https://localhost:3001/mcp
+claude mcp add lista --transport sse https://mcp.ltqa.io/mcp
 ```
 
 **OpenClaw** — add to `openclaw.json`:
@@ -55,7 +55,7 @@ claude mcp add lista --transport sse https://localhost:3001/mcp
   "mcpServers": {
     "lista": {
       "transport": "streamable-http",
-      "url": "https://localhost:3001/mcp"
+      "url": "https://mcp.ltqa.io/mcp"
     }
   }
 }
@@ -66,7 +66,7 @@ claude mcp add lista --transport sse https://localhost:3001/mcp
 {
   "mcpServers": {
     "lista": {
-      "url": "https://localhost:3001/mcp"
+      "url": "https://mcp.ltqa.io/mcp"
     }
   }
 }
