@@ -9,7 +9,7 @@ Referenced by Reports A, D, E, F for position discovery, price fetching, and met
 Call two MCP tools:
 
 ```
-lista_get_position({ wallet: "<address>" })
+lista_get_position({ wallet: "<address>", chain: "<chain>" })
 ```
 
 Returns three sections:
@@ -26,7 +26,7 @@ name** — use each unique `loanSymbol` from holdings to fetch only relevant mar
 
 ```
 # Preferred: one call per unique loan token (loanSymbol from holdings[].loanSymbol)
-lista_get_borrow_markets({ keyword: "<loanSymbol>", pageSize: 50 })
+lista_get_borrow_markets({ keyword: "<loanSymbol>", pageSize: 50, chain: "<chain>" })
 ```
 
 Each market has `id` and `lltv` (decimal string, e.g. "0.860000000000000000"). Match
@@ -36,16 +36,16 @@ If a market is still not found (e.g. unusual loan token), fall back to unfiltere
 pagination:
 
 ```
-lista_get_borrow_markets({ pageSize: 50, page: 1 })
-lista_get_borrow_markets({ pageSize: 50, page: 2 })   # if needed
-lista_get_borrow_markets({ pageSize: 50, page: 3 })   # if needed
+lista_get_borrow_markets({ pageSize: 50, page: 1, chain: "<chain>" })
+lista_get_borrow_markets({ pageSize: 50, page: 2, chain: "<chain>" })   # if needed
+lista_get_borrow_markets({ pageSize: 50, page: 3, chain: "<chain>" })   # if needed
 ```
 
 Stop paginating once all active market LLTVs are found.
 
 **moolah.js fallback** (if MCP is unavailable):
 ```bash
-node .agents/lista/scripts/moolah.js params <marketId>
+node .agents/lista/scripts/moolah.js --chain <bsc|eth> params <marketId>
 # Returns: loanToken, collateralToken, oracle, irm, lltv, lltvPct
 ```
 
@@ -59,7 +59,7 @@ For other tokens, try in order until one succeeds:
 
 1. **Position data** (if user has an active position in the market):
    ```
-   lista_get_position({ wallet: "<address>" })
+   lista_get_position({ wallet: "<address>", chain: "<chain>" })
    ```
    Use `holdings[].collateralPrice` / `loanPrice` for the matching `marketId`.
 
@@ -71,8 +71,8 @@ For other tokens, try in order until one succeeds:
 
 3. **moolah.js** (last resort — only if MCP is unavailable):
    ```bash
-   node .agents/lista/scripts/moolah.js token-price <tokenAddress>
-   node .agents/lista/scripts/moolah.js lp-price <marketId>   # Smart Lending LP
+   node .agents/lista/scripts/moolah.js --chain <bsc|eth> token-price <tokenAddress>
+   node .agents/lista/scripts/moolah.js --chain <bsc|eth> lp-price <marketId>   # Smart Lending LP
    ```
 
 ## Zone definitions

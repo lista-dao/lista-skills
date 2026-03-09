@@ -50,7 +50,7 @@ Generate 1–3 concise suggestions per address based on actual numbers:
 
 ```
 Lista Lending — Position Report
-Generated: <YYYY-MM-DD HH:MM> UTC  |  BSC Mainnet
+Generated: <YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Address 1: 0xAbCd…5678
@@ -69,7 +69,7 @@ Recommendations:
 
 Total: <N> addresses  |  <M> active positions  |  Combined net equity ~＄X
 
-Data: <DATA_SOURCE>  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  <NETWORK>
 ```
 
 Notes:
@@ -81,7 +81,7 @@ Notes:
 
 ```
 Lista Lending — 持倉報告
-產生時間：<YYYY-MM-DD HH:MM> UTC  |  BSC 主網
+產生時間：<YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 地址 1：0xAbCd…5678
@@ -100,5 +100,5 @@ Lista Lending — 持倉報告
 
 總計：<N> 個地址  |  <M> 個活躍持倉  |  合計淨資產約 ＄X
 
-資料來源：<DATA_SOURCE>  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  <NETWORK>
 ```

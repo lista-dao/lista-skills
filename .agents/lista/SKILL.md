@@ -1,11 +1,11 @@
 ---
 name: lista
-description: Lista Lending assistant — position report, market overview, yield scan, liquidation risk check, daily digest, and loop strategy on BSC
+description: Lista Lending assistant — position report, market overview, yield scan, liquidation risk check, daily digest, and loop strategy on BSC and Ethereum
 ---
 
 # Lista Lending
 
-Your Lista Lending (Moolah) assistant on BSC. Choose a function below.
+Your Lista Lending (Moolah) assistant on BSC and Ethereum. Choose a function below.
 
 **MCP tools:** `lista_get_position`, `lista_get_borrow_markets`, `lista_get_lending_vaults`, `lista_get_oracle_price`, `lista_get_staking_info`, `lista_get_dashboard`, `lista_get_rewards`
 
@@ -86,6 +86,10 @@ Use the selected language for all output below.
 5. **Numbers stay as-is.** Do not round, reformat, or change decimal places beyond what the data provides.
 6. **Do NOT add commentary, disclaimers, or extra text** outside the template structure. The report IS the output.
 7. **Data source label (`<DATA_SOURCE>`):** Use `Lista MCP` if all data was fetched via `lista_*` MCP tools; use `Lista API` if all data was fetched via the REST API (api.lista.org); use `Lista MCP + API` if both were used (MCP with REST API fallback).
+8. **Network label (`<NETWORK>`):** Resolve from inferred chain:
+   - `"bsc"` → EN: `BSC Mainnet` / ZH: `BSC 主網`
+   - `"ethereum"` → EN: `Ethereum Mainnet` / ZH: `ETH 主網`
+   - `"bsc,ethereum"` → EN: `BSC + Ethereum` / ZH: `BSC + ETH`
 
 ---
 
@@ -145,6 +149,21 @@ echo "<NEW_ADDRESS>" > ~/.lista/wallet.txt
 ### Multiple addresses
 
 The user may provide multiple addresses (comma/space/line separated). Save all to the file (one per line) and process each.
+
+---
+
+## Step 2.5 — Chain inference
+
+Resolve the active chain from the user's message before dispatching any report. Do NOT save this to disk — resolve fresh per request.
+
+| User says | Chain |
+|---|---|
+| "ethereum", "eth", "on ETH", "在以太坊", "ETH positions" | `"ethereum"` |
+| "bsc", "bnb", "binance" | `"bsc"` |
+| "both chains", "兩條鏈", "bsc and ethereum" | `"bsc,ethereum"` |
+| No keyword / ambiguous | `"bsc"` (default) |
+
+Pass the resolved chain to all MCP tool calls in the selected report reference.
 
 ---
 

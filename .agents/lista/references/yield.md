@@ -7,7 +7,7 @@ Query each Vault's current APY, TVL, and underlying market allocations.
 ## C.1 — Fetch data
 
 ```
-lista_get_lending_vaults({ pageSize: 50 })
+lista_get_lending_vaults({ pageSize: 50, chain: "<chain>" })
 ```
 
 Returns per vault: `address`, `name`, `apy`, `emissionApy`, `emissionEnabled`, `depositsUsd`, `assetSymbol`, `zone`, and `collaterals[]`.
@@ -29,7 +29,7 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 ```
 💰 Lista Lending — Vault Yield
-<YYYY-MM-DD HH:MM> UTC  |  BSC Mainnet
+<YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🏆 Classic (Audited)
@@ -60,7 +60,7 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 ⚡ Smart Lending  |  🔒 Fixed Rate
 
-Data: <DATA_SOURCE>  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  <NETWORK>
 ```
 
 Notes:
@@ -72,7 +72,7 @@ Notes:
 
 ```
 💰 Lista Lending — Vault 收益
-<YYYY-MM-DD HH:MM> UTC  |  BSC 主網
+<YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🏆 Classic（已審計）
@@ -103,5 +103,5 @@ Notes:
 
 ⚡ Smart Lending  |  🔒 固定利率
 
-資料來源：<DATA_SOURCE>  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  <NETWORK>
 ```

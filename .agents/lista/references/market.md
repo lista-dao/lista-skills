@@ -7,7 +7,7 @@ Query real-time Supply APY and Borrow APY for each lending market.
 ## B.1 — Fetch data
 
 ```
-lista_get_borrow_markets({ pageSize: 50 })
+lista_get_borrow_markets({ pageSize: 50, chain: "<chain>" })
 ```
 
 Default returns Classic (zone=0) + Smart Lending (zone=3) markets. To include Alpha and Aster, pass `zone: "0,1,3,4"`.
@@ -48,7 +48,7 @@ Flag special market types:
 
 ```
 📋 Lista Lending — Market Rates
-<YYYY-MM-DD HH:MM> UTC  |  BSC Mainnet
+<YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 | Market | Supply APY | Borrow APY | Liquidity | Util |
@@ -64,7 +64,7 @@ Flag special market types:
 
 ⚡ Smart Lending  |  🔒 Fixed Rate  |  🔥 High Utilization (>85%)
 
-Data: <DATA_SOURCE>  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  <NETWORK>
 ```
 
 Notes:
@@ -76,7 +76,7 @@ Notes:
 
 ```
 📋 Lista Lending — 市場借貸利率
-<YYYY-MM-DD HH:MM> UTC  |  BSC 主網
+<YYYY-MM-DD HH:MM> UTC  |  <NETWORK>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 | 市場 | 供款年化 | 借款年化 | 流動性 | 利用率 |
@@ -92,5 +92,5 @@ Notes:
 
 ⚡ Smart Lending  |  🔒 固定利率  |  🔥 高利用率（>85%）
 
-資料來源：<DATA_SOURCE>  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  <NETWORK>
 ```
