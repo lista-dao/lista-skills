@@ -15,17 +15,17 @@ Your Lista Lending (Moolah) assistant on BSC. Choose a function below.
 >
 > **Claude Code:**
 > ```
-> claude mcp add lista --transport sse https://mcp.ltqa.io/mcp
+> claude mcp add lista --transport sse https://mcp.lista.org/mcp
 > ```
 >
 > **OpenClaw** — add to `openclaw.json`:
 > ```json
-> { "mcpServers": { "lista": { "transport": "streamable-http", "url": "https://mcp.ltqa.io/mcp" } } }
+> { "mcpServers": { "lista": { "transport": "streamable-http", "url": "https://mcp.lista.org/mcp" } } }
 > ```
 >
 > **Other MCP clients:** Add to your MCP config:
 > ```json
-> { "mcpServers": { "lista": { "url": "https://mcp.ltqa.io/mcp" } } }
+> { "mcpServers": { "lista": { "url": "https://mcp.lista.org/mcp" } } }
 > ```
 >
 > Then restart your session and try again.
