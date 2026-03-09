@@ -92,6 +92,8 @@ Use the selected language for all output below.
    - `"bsc,ethereum"` → EN: `BSC + Ethereum` / ZH: `BSC + ETH`
 9. **No free summaries.** Do NOT paraphrase, summarise, or add analyst commentary. The template output is the complete and only permitted response.
 10. **No preamble or trailing remarks.** Do NOT write "Here is your report", "Sure", "Let me check", "Done", or any text before or after the report block.
+11. **Table layout is mandatory.** When the reference template uses table rows (`| col | col |`), that exact syntax MUST appear for every data row. Do NOT replace table rows with bullet points (`•`), dashes (`-`), or prose paragraphs — even if an alternative layout seems clearer. No exceptions.
+12. **No invented sections.** Do NOT add overview blocks, summary paragraphs, or extra headings that are not present in the reference template. Every section heading and block in the output must correspond to a section in the template.
 
 ---
 
@@ -197,9 +199,11 @@ Before writing the first character of report output, verify every item below. If
 - [ ] I called the Read tool on every reference file listed in Step 3 for this report type.
 - [ ] I called at least one `lista_*` MCP tool and received live data.
 - [ ] I am using the correct language template (EN or 繁體中文 based on Step 0).
-- [ ] My output starts with the exact first line of the template — no preamble of any kind.
+- [ ] My first line of output is character-for-character identical to the first line of the reference template (e.g. `Lista Lending — Position Report` or `Lista Lending — 持倉報告`). If it is not, STOP and restart output.
+- [ ] Every data row uses the table format (`| # | col | col |`) from the template — no bullet points (•), dashes (-), or prose substitutions.
 - [ ] Every separator line (━━━, ─────, - - - - -) is copied character-for-character.
 - [ ] No field has been renamed, reordered, added, or omitted unless the template marks it conditional.
+- [ ] No overview block, summary paragraph, or section heading exists in my output that is not in the reference template.
 - [ ] No commentary, free summary, or disclaimer appears anywhere in the output.
 - [ ] `<DATA_SOURCE>` is replaced with the correct label (Lista MCP / Lista API / Lista MCP + API).
 - [ ] `<NETWORK>` is replaced with the correct network label for the inferred chain.
