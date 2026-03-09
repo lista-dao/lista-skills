@@ -83,7 +83,7 @@ Use the selected language for all output below.
 2. **Copy template structure character-for-character.** Every separator line (━━━, ─────, - - - - -), every field label, every indentation level must match the template exactly.
 3. **Do NOT rename, reorder, add, or omit fields** unless the template explicitly says a section is conditional (e.g. "if risk alerts exist").
 4. **＄ in templates = $ in output.** Templates use fullwidth ＄ for escaping; replace with normal $ when generating.
-5. **Numbers stay as-is.** Do not round, reformat, or change decimal places beyond what the data provides.
+5. **Round all numbers to 2 decimal places.** Token amounts (e.g. `4933.97 slisBNB`), USD values (e.g. `~$3.19M`), percentages (e.g. `71.2%`), and health factor (e.g. `1.21`) all display at most 2 decimal places. Do NOT output raw MCP precision (e.g. `4933.97414194585166222` is wrong; `4933.97` is correct).
 6. **Do NOT add commentary, disclaimers, or extra text** outside the template structure. The report IS the output.
 7. **Data source label (`<DATA_SOURCE>`):** Use `Lista MCP` if all data was fetched via `lista_*` MCP tools; use `Lista API` if all data was fetched via the REST API (api.lista.org); use `Lista MCP + API` if both were used (MCP with REST API fallback).
 8. **Network label (`<NETWORK>`):** Resolve from inferred chain:

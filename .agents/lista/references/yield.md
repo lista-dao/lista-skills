@@ -25,6 +25,8 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 ## C.3 — Output template
 
+⛔ STOP BEFORE OUTPUTTING. You MUST copy the template below character-for-character. Substitute `<placeholder>` values with real data. Change NOTHING else — no bullet points, no overview section, no preamble, no trailing remarks. Your response must start with the exact first line shown in the template.
+
 ### English
 
 ```

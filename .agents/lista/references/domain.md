@@ -92,6 +92,8 @@ For other tokens, try in order until one succeeds:
 
 All amounts from MCP are human-readable (not raw 1e18). No precision conversion needed.
 
+**Rounding (apply before display):** Round all token amounts, USD values, percentages, and health factor to 2 decimal places. Never display the raw MCP precision in output.
+
 For each market, join data by `marketId`:
 
 ```
