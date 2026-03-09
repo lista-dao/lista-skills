@@ -60,7 +60,7 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 ⚡ Smart Lending  |  🔒 Fixed Rate
 
-Data: api.lista.org  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  BSC Mainnet
 ```
 
 Notes:
@@ -103,5 +103,5 @@ Notes:
 
 ⚡ Smart Lending  |  🔒 固定利率
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  BSC 主網
 ```

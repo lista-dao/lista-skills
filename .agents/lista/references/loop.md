@@ -107,7 +107,7 @@ Loops │ Collateral      │ Debt          │ Leverage │ Net APY │ Liq Pri
 ⚠️  Risk: Borrow rate is variable. If it rises above ~5.8%, strategy turns net negative.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-Data: api.lista.org  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  BSC Mainnet
 ```
 
 ### 繁體中文
@@ -135,5 +135,5 @@ LLTV：86%  |  借款利率：2.6% APY  |  slisBNB 原生收益：4.2%
 ⚠️  風險：借款利率為浮動利率。若利率上升至約 5.8% 以上，策略將轉為淨虧損。
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-資料來源：api.lista.org  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  BSC 主網
 ```

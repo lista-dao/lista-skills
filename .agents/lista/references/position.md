@@ -69,7 +69,7 @@ Recommendations:
 
 Total: <N> addresses  |  <M> active positions  |  Combined net equity ~＄X
 
-Data: api.lista.org  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  BSC Mainnet
 ```
 
 Notes:
@@ -100,5 +100,5 @@ Lista Lending — 持倉報告
 
 總計：<N> 個地址  |  <M> 個活躍持倉  |  合計淨資產約 ＄X
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  BSC 主網
 ```

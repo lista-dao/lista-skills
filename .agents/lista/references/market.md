@@ -64,7 +64,7 @@ Flag special market types:
 
 ⚡ Smart Lending  |  🔒 Fixed Rate  |  🔥 High Utilization (>85%)
 
-Data: api.lista.org  |  BSC Mainnet
+Data: <DATA_SOURCE>  |  BSC Mainnet
 ```
 
 Notes:
@@ -92,5 +92,5 @@ Notes:
 
 ⚡ Smart Lending  |  🔒 固定利率  |  🔥 高利用率（>85%）
 
-資料來源：api.lista.org  |  BSC 主網
+資料來源：<DATA_SOURCE>  |  BSC 主網
 ```

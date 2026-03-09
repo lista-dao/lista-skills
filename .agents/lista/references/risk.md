@@ -67,7 +67,7 @@ No positions approaching liquidation.
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 Threshold: LLTV >= 90% → gap 0.5% | LLTV < 90% → gap 5%
 
-Data: api.lista.org | BSC Mainnet
+Data: <DATA_SOURCE> | BSC Mainnet
 ```
 
 ### 繁體中文 — 觸發預警
@@ -109,7 +109,7 @@ LTV 差距：0.4% ⚠️ 低於預警閾值（0.5%）
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 預警閾值：LLTV >= 90% → 差距 0.5% | LLTV < 90% → 差距 5%
 
-資料來源：api.lista.org | BSC 主網
+資料來源：<DATA_SOURCE> | BSC 主網
 ```
 
 ## D.4 — Threshold customization

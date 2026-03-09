@@ -68,7 +68,7 @@ USD1 Vault APY: 5.6% (↓0.2%)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Data: api.lista.org | BSC Mainnet
+Data: <DATA_SOURCE> | BSC Mainnet
 ```
 
 If risk alerts exist, add before closing ━━━. Use two tiers:
@@ -126,7 +126,7 @@ USD1 金庫年化：5.6%（↓0.2%）
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-資料來源：api.lista.org | BSC 主網
+資料來源：<DATA_SOURCE> | BSC 主網
 ```
 
 For weekly: replace "Daily Digest" / "每日報告" with "Weekly Digest" / "每週報告". Show weekly yield estimates instead of daily.

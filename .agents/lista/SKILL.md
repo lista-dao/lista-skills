@@ -85,6 +85,7 @@ Use the selected language for all output below.
 4. **＄ in templates = $ in output.** Templates use fullwidth ＄ for escaping; replace with normal $ when generating.
 5. **Numbers stay as-is.** Do not round, reformat, or change decimal places beyond what the data provides.
 6. **Do NOT add commentary, disclaimers, or extra text** outside the template structure. The report IS the output.
+7. **Data source label (`<DATA_SOURCE>`):** Use `Lista MCP` if all data was fetched via `lista_*` MCP tools; use `Lista API` if all data was fetched via the REST API (api.lista.org); use `Lista MCP + API` if both were used (MCP with REST API fallback).
 
 ---
 
