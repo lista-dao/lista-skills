@@ -90,6 +90,8 @@ Use the selected language for all output below.
    - `"bsc"` → EN: `BSC Mainnet` / ZH: `BSC 主網`
    - `"ethereum"` → EN: `Ethereum Mainnet` / ZH: `ETH 主網`
    - `"bsc,ethereum"` → EN: `BSC + Ethereum` / ZH: `BSC + ETH`
+9. **No free summaries.** Do NOT paraphrase, summarise, or add analyst commentary. The template output is the complete and only permitted response.
+10. **No preamble or trailing remarks.** Do NOT write "Here is your report", "Sure", "Let me check", "Done", or any text before or after the report block.
 
 ---
 
@@ -169,7 +171,11 @@ Pass the resolved chain to all MCP tool calls in the selected report reference.
 
 ## Step 3 — Dispatch
 
-Read the specific reference files for the selected report type:
+**MANDATORY GATE — must complete before any data fetch or output:**
+
+1. Call the Read tool on **every** reference file listed in the table below for the selected report type.
+2. Do NOT generate any output from memory or prior context. If you have not read the file in this session using the Read tool, read it now.
+3. Always prefer `lista_*` MCP tools for all data fetching. Only use moolah.js or REST API fallbacks if the MCP tool call returns a connection error.
 
 | Report type | Read these files |
 |---|---|
@@ -181,3 +187,20 @@ Read the specific reference files for the selected report type:
 | 6 — Loop Strategy | `references/domain.md`, `references/loop.md` |
 
 Follow the instructions in the referenced files to fetch data, compute metrics, and generate the report using the selected language.
+
+---
+
+## Step 4 — Pre-output self-check (MANDATORY)
+
+Before writing the first character of report output, verify every item below. If any check fails, fix it first.
+
+- [ ] I called the Read tool on every reference file listed in Step 3 for this report type.
+- [ ] I called at least one `lista_*` MCP tool and received live data.
+- [ ] I am using the correct language template (EN or 繁體中文 based on Step 0).
+- [ ] My output starts with the exact first line of the template — no preamble of any kind.
+- [ ] Every separator line (━━━, ─────, - - - - -) is copied character-for-character.
+- [ ] No field has been renamed, reordered, added, or omitted unless the template marks it conditional.
+- [ ] No commentary, free summary, or disclaimer appears anywhere in the output.
+- [ ] `<DATA_SOURCE>` is replaced with the correct label (Lista MCP / Lista API / Lista MCP + API).
+- [ ] `<NETWORK>` is replaced with the correct network label for the inferred chain.
+- [ ] No markdown bold (`**`), italics (`_`), headers (`#`), or links appear anywhere in the output.
