@@ -26,12 +26,48 @@ Returns per market:
 
 If user asks about a specific asset (e.g. "USDT rate", "BNB 利率"), pass `keyword` parameter to filter.
 
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js --chain <bsc|eth> markets [keyword]
+```
+Returns JSON with `markets[]` containing `supplyApy`, `borrowApy`, `liquidityUsd`, `lltv`, `zone`, `isSmartLending`, `utilization`, `termType` per market, plus `overall` protocol stats.
+
+Note: moolah.js uses `borrowApy` (not `rate`). Also adds `utilization` and `termType` fields directly.
+
+**Fallback — curl only** (no Node.js): Use vault/list and vault/allocation for market metadata. No rates or utilization. Show available fields only.
+
+## B.1.5 — Conditional query detection
+
+Detect whether the user's message implies a subset query. If yes, set `filter_mode = true` and determine the filter/sort to apply **after** fetching all markets (B.1):
+
+| User intent | Action |
+|---|---|
+| "最低借款" / "lowest borrow rate" | sort borrowApy asc, take 1 |
+| "最高供款" / "highest supply APY" | sort supplyApy desc, take 1 |
+| "前 N 個" / "top N" | sort by relevant field, take N |
+| "利率低於 X%" / "rate below X%" | filter borrowApy < X/100 |
+| "<asset> 市場" / "<asset> markets" | filter collateral or loan contains asset |
+| "<zone> 市場" / "<zone> markets" | filter by zone |
+
+Exclude markets with `liquidityUsd < $1,000` before any sort/filter.
+
+In B.3 output when `filter_mode = true`:
+- Render only the matching entries using the standard per-market group format.
+- Replace report title with a context-specific title:
+  - `📋 Lista Lending — <asset> 市場借貸利率` / `📋 Lista Lending — <asset> Market Rates` (asset filter)
+  - `📋 Lista Lending — 最低借款利率市場` / `📋 Lista Lending — Lowest Borrow Rate Market` (superlative borrow)
+  - `📋 Lista Lending — 借款利率 < X% 市場` / `📋 Lista Lending — Borrow Rate < X% Markets` (threshold)
+- If no markets match: output `（無符合條件的市場）` / `(No matching markets)` between the `- - - - -` separators.
+- All separators, legend line, data source line remain unchanged.
+
+Note: the existing `keyword` parameter in B.1 handles asset filter at fetch time; conditional query detection refines further at render time.
+
 ## B.2 — Compute
 
 Build a deduplicated market list. Each market appears once with:
 - `collateral / loan` — market name
 - `supplyApy` — supply-side APY (decimal → %)
-- `rate` — borrow-side APY (decimal → %)
+- `rate` (MCP) / `borrowApy` (moolah.js) — borrow-side APY (decimal → %)
 - `liquidityUsd` — available liquidity in USD
 - `utilization` — compute as: `borrow / (liquidity + borrow)` where `liquidity` = available to borrow, `borrow` = already borrowed
 

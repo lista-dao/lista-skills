@@ -8,6 +8,13 @@ Check all positions for liquidation risk and flag those approaching thresholds.
 
 Same as Report A steps A.1–A.2. Use `references/domain.md` for MCP data fetching and metric computation.
 
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js --chain <bsc|eth> dashboard <address>
+```
+
+Follow the fallback chain in `domain.md`. Position data requires MCP or moolah.js — curl alone cannot serve this report.
+
 ## D.2 — Apply alert thresholds
 
 For each position with debt > 0 (i.e. `borrows[].amount > 0`):

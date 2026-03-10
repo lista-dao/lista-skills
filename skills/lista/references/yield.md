@@ -10,11 +10,50 @@ Query each Vault's current APY, TVL, and underlying market allocations.
 lista_get_lending_vaults({ pageSize: 50, chain: "<chain>" })
 ```
 
-Returns per vault: `address`, `name`, `apy`, `emissionApy`, `emissionEnabled`, `depositsUsd`, `assetSymbol`, `zone`, and `collaterals[]`.
+Returns per vault: `address`, `name`, `apy`, `emissionApy`, `emissionEnabled`, `depositsUsd`, `assetSymbol`, `zone`, `utilization`, and `collaterals[]`.
 
 Each `collaterals[]` entry has: `id` (marketId), `name` (collateral symbol), `loanSymbol`, `allocation` (decimal weight, e.g. 0.44 = 44%).
 
 If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `keyword` parameter to filter.
+
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js --chain <bsc|eth> vaults [keyword]
+```
+Returns JSON with `vaults[]` containing `apy`, `emissionApy`, `totalApy`, `depositsUsd`, `zone`, `utilization`, `collaterals[]` per vault.
+
+**Fallback — curl** (if Node.js unavailable):
+```bash
+curl -s "https://api.lista.org/api/moolah/vault/list?pageSize=100&chain=bsc"
+```
+Note: curl may not include emissionApy. If missing, show LISTA bonus as "—" and use only base apy.
+
+## C.1.5 — Conditional query detection
+
+Detect whether the user's message implies a subset query. If yes, set `filter_mode = true` and determine the filter/sort to apply **after** fetching all vaults (C.1):
+
+| User intent | Action |
+|---|---|
+| "最高年化" / "highest APY" | sort totalApy desc, take 1 |
+| "最低年化" / "lowest APY" | sort totalApy asc, take 1 |
+| "前 N 個" / "top N" | sort totalApy desc, take N |
+| "年化高於 X%" / "APY above X%" | filter totalApy > X/100 |
+| "<asset> vault" / "<asset> 金庫" | filter assetSymbol contains asset |
+| "<zone> vault" / "<zone> 金庫" | filter by zone |
+| "TVL 最大" / "largest TVL" | sort depositsUsd desc, take 1 |
+
+Exclude vaults with `depositsUsd < $100` before any sort/filter.
+
+In C.3 output when `filter_mode = true`:
+- Render only the matching vaults, each inside its correct zone section. If all results share the same zone, only that zone header appears. If results span multiple zones, render one zone section per represented zone.
+- Replace report title with a context-specific title:
+  - `💰 Lista Lending — 最高年化金庫` / `💰 Lista Lending — Highest APY Vault` (superlative APY)
+  - `💰 Lista Lending — <asset> Vault 收益` / `💰 Lista Lending — <asset> Vault Yield` (asset filter)
+  - `💰 Lista Lending — 年化 > X% 金庫` / `💰 Lista Lending — APY > X% Vaults` (threshold)
+- If no vaults match: output `（無符合條件的金庫）` / `(No matching vaults)` between the `- - - - -` separators.
+- All separators, zone headers, legend line, data source line remain unchanged.
+
+Note: the existing `keyword` parameter in C.1 handles asset filter at fetch time; conditional query detection refines further at render time.
 
 ## C.2 — Compute
 

@@ -24,6 +24,14 @@ lista_get_borrow_markets({ keyword: "<loanSymbol>", pageSize: 50 })
 
 Match each returned market by `id` to the user's active market IDs. Use the `lltv` field. If a market is not found on page 1, paginate with `page: 2`.
 
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js --chain <bsc|eth> dashboard <address>
+```
+Returns JSON with `positions[]` containing pre-computed metrics (`ltv`, `healthFactor`, `liqPriceUsd`, `buffer`, `riskLevel`, `netEquityUsd`). All values are human-readable — no conversion needed.
+
+**Fallback — curl**: Position data requires API calls. Without MCP or Node.js, report cannot run.
+
 ## A.2 — Compute metrics
 
 Join data by marketId and compute per `references/domain.md`. Amounts are human-readable — no 1e18 conversion needed.

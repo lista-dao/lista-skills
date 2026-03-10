@@ -30,6 +30,12 @@ From the returned list, find the entry where `collateral == <collateral_asset>`.
 If no matching market is found, paginate (`page: 2`, `page: 3`) or drop the keyword
 filter and scan all markets. Inform the user if the market still cannot be found.
 
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js --chain <bsc|eth> markets <borrow_asset>
+```
+Returns JSON with `markets[]` containing `borrowApy`, `lltv`, `id`, `collateral`, `loan`, `zone` per market. Filter by `collateral` field to find the matching market.
+
 ## F.2 — Fetch token prices
 
 Use the **Token price resolution** section in `domain.md` to get collateral and loan prices.
@@ -43,6 +49,14 @@ lista_get_staking_info()
 ```
 
 Use the returned staking APR/APY as native yield.
+
+**Fallback — moolah.js** (if MCP unavailable):
+```bash
+node skills/lista/scripts/moolah.js staking
+```
+Returns JSON with `apr`, `comprehensiveApy`, and `locked` (3m/6m/12m).
+
+If moolah.js is also unavailable: slisBNB → use 2.8% default. Other LSTs → use 0%.
 
 For other assets:
 - PT tokens: use fixed rate from `terms.apy` in market response
