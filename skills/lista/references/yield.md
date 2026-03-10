@@ -36,27 +36,67 @@ If user asks about a specific asset (e.g. "BNB yield", "USDT 收益"), pass `key
 
 🏆 Classic (Audited)
 
-| # | Vault | Base APY | LISTA | Total APY | TVL | Util | Top Markets |
-|---|-------|----------|-------|-----------|-----|------|-------------|
-| 1 | WBNB Vault (WBNB) | 4.2% | 2.1% | 6.3% | ＄18.2M | 52% | slisBNB/WBNB 39% ⚡, PT-slisBNBx/WBNB 21% 🔒 |
-| 2 | USD1 Vault (USD1) | 3.1% | 1.8% | 4.9% | ＄8.3M | 61% | BTCB/USD1 44%, WBNB/USD1 32% |
-| 3 | U Vault (U) | 2.5% | 0% | 2.5% | ＄5.1M | 48% | slisBNB/U 52%, BTCB/U 30% |
+- - - - -
+
+#1  WBNB Vault (WBNB)
+Base APY: 4.2%
+LISTA bonus: 2.1%
+Total APY: 6.3%
+TVL: ＄18.2M
+Utilization: 52%
+Top markets: slisBNB/WBNB 39% ⚡, PT-slisBNBx/WBNB 21% 🔒
+
+
+#2  USD1 Vault (USD1)
+Base APY: 3.1%
+LISTA bonus: 1.8%
+Total APY: 4.9%
+TVL: ＄8.3M
+Utilization: 61%
+Top markets: BTCB/USD1 44%, WBNB/USD1 32%
+
+
+#3  U Vault (U)
+Base APY: 2.5%
+LISTA bonus: 0%
+Total APY: 2.5%
+TVL: ＄5.1M
+Utilization: 48%
+Top markets: slisBNB/U 52%, BTCB/U 30%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️  Alpha (Higher Risk)
 
-| # | Vault | Base APY | LISTA | Total APY | TVL | Util | Top Markets |
-|---|-------|----------|-------|-----------|-----|------|-------------|
-| 1 | WBTC Vault (WBTC) | 14.2% | 0% | 14.2% | ＄420K | 78% | WBTC/USD1 100% |
+- - - - -
+
+#1  WBTC Vault (WBTC)
+Base APY: 14.2%
+LISTA bonus: 0%
+Total APY: 14.2%
+TVL: ＄420K
+Utilization: 78%
+Top markets: WBTC/USD1 100%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️  Aster (Partner Assets)
 
-| # | Vault | Base APY | LISTA | Total APY | TVL | Util | Top Markets |
-|---|-------|----------|-------|-----------|-----|------|-------------|
-| 1 | ASTER Vault (ASTER) | 8.5% | 0% | 8.5% | ＄120K | 45% | ASTER/USDT 100% |
+- - - - -
+
+#1  ASTER Vault (ASTER)
+Base APY: 8.5%
+LISTA bonus: 0%
+Total APY: 8.5%
+TVL: ＄120K
+Utilization: 45%
+Top markets: ASTER/USDT 100%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -66,9 +106,9 @@ Data: <DATA_SOURCE>  |  <NETWORK>
 ```
 
 Notes:
-- One table per zone. Omit a zone section entirely if no vaults exist in that zone.
+- One `- - - - -` group per zone. Omit a zone section entirely if no vaults exist in that zone.
 - If user filtered by asset, show only matching vaults and replace title with: `💰 Lista Lending — <ASSET> Vault Yield`.
-- If `emissionApy` is 0 or emission is disabled, show `0%` in LISTA column.
+- If `emissionApy` is 0 or emission is disabled, show `0%` for LISTA bonus / LISTA 加成.
 
 ### 繁體中文
 
@@ -79,27 +119,67 @@ Notes:
 
 🏆 Classic（已審計）
 
-| # | 金庫 | 基礎年化 | LISTA | 總年化 | TVL | 利用率 | 底層市場 |
-|---|------|----------|-------|--------|-----|--------|----------|
-| 1 | WBNB 金庫（WBNB） | 4.2% | 2.1% | 6.3% | ＄18.2M | 52% | slisBNB/WBNB 39% ⚡、PT-slisBNBx/WBNB 21% 🔒 |
-| 2 | USD1 金庫（USD1） | 3.1% | 1.8% | 4.9% | ＄8.3M | 61% | BTCB/USD1 44%、WBNB/USD1 32% |
-| 3 | U 金庫（U） | 2.5% | 0% | 2.5% | ＄5.1M | 48% | slisBNB/U 52%、BTCB/U 30% |
+- - - - -
+
+#1  WBNB 金庫（WBNB）
+基礎年化：4.2%
+LISTA 加成：2.1%
+總年化：6.3%
+TVL：＄18.2M
+利用率：52%
+底層市場：slisBNB/WBNB 39% ⚡、PT-slisBNBx/WBNB 21% 🔒
+
+
+#2  USD1 金庫（USD1）
+基礎年化：3.1%
+LISTA 加成：1.8%
+總年化：4.9%
+TVL：＄8.3M
+利用率：61%
+底層市場：BTCB/USD1 44%、WBNB/USD1 32%
+
+
+#3  U 金庫（U）
+基礎年化：2.5%
+LISTA 加成：0%
+總年化：2.5%
+TVL：＄5.1M
+利用率：48%
+底層市場：slisBNB/U 52%、BTCB/U 30%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️  Alpha（較高風險）
 
-| # | 金庫 | 基礎年化 | LISTA | 總年化 | TVL | 利用率 | 底層市場 |
-|---|------|----------|-------|--------|-----|--------|----------|
-| 1 | WBTC 金庫（WBTC） | 14.2% | 0% | 14.2% | ＄420K | 78% | WBTC/USD1 100% |
+- - - - -
+
+#1  WBTC 金庫（WBTC）
+基礎年化：14.2%
+LISTA 加成：0%
+總年化：14.2%
+TVL：＄420K
+利用率：78%
+底層市場：WBTC/USD1 100%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️  Aster（合作夥伴資產）
 
-| # | 金庫 | 基礎年化 | LISTA | 總年化 | TVL | 利用率 | 底層市場 |
-|---|------|----------|-------|--------|-----|--------|----------|
-| 1 | ASTER 金庫（ASTER） | 8.5% | 0% | 8.5% | ＄120K | 45% | ASTER/USDT 100% |
+- - - - -
+
+#1  ASTER 金庫（ASTER）
+基礎年化：8.5%
+LISTA 加成：0%
+總年化：8.5%
+TVL：＄120K
+利用率：45%
+底層市場：ASTER/USDT 100%
+
+- - - - -
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
