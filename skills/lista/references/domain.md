@@ -45,7 +45,7 @@ Stop paginating once all active market LLTVs are found.
 
 **moolah.js fallback** (if MCP is unavailable):
 ```bash
-node .agents/lista/scripts/moolah.js --chain <bsc|eth> params <marketId>
+node skills/lista/scripts/moolah.js --chain <bsc|eth> params <marketId>
 # Returns: loanToken, collateralToken, oracle, irm, lltv, lltvPct
 ```
 
@@ -71,8 +71,8 @@ For other tokens, try in order until one succeeds:
 
 3. **moolah.js** (last resort — only if MCP is unavailable):
    ```bash
-   node .agents/lista/scripts/moolah.js --chain <bsc|eth> token-price <tokenAddress>
-   node .agents/lista/scripts/moolah.js --chain <bsc|eth> lp-price <marketId>   # Smart Lending LP
+   node skills/lista/scripts/moolah.js --chain <bsc|eth> token-price <tokenAddress>
+   node skills/lista/scripts/moolah.js --chain <bsc|eth> lp-price <marketId>   # Smart Lending LP
    ```
 
 ## Zone definitions
