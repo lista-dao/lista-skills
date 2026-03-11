@@ -193,8 +193,8 @@ async function cmdDashboard(wallet) {
     const loanSym = h.loanSymbol || '?';
     const zone = h.zone ?? null;
 
-    // Dust filter
-    if (collateralUsd < 1 && debtUsd < 1) continue;
+    // Dust filter — only skip truly empty positions
+    if (collateralUsd === 0 && debtUsd === 0) continue;
     // Debt-only filter (when --debt-only flag is set)
     if (debtOnly && debtAmount === 0) continue;
 
