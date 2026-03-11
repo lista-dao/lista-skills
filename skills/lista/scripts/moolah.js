@@ -6,7 +6,7 @@
  * No external dependencies required — uses Node.js stdlib only.
  *
  * Usage:
- *   node moolah.js [--chain bsc|eth] dashboard   <wallet>
+ *   node moolah.js [--chain bsc|eth] [--debt-only] dashboard   <wallet>
  *   node moolah.js [--chain bsc|eth] markets     [keyword]
  *   node moolah.js [--chain bsc|eth] vaults      [keyword]
  *   node moolah.js                   prices
