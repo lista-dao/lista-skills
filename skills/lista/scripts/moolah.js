@@ -6,7 +6,7 @@
  * No external dependencies required — uses Node.js stdlib only.
  *
  * Usage:
- *   node moolah.js [--chain bsc|eth] dashboard   <wallet>
+ *   node moolah.js [--chain bsc|eth] [--debt-only] dashboard   <wallet>
  *   node moolah.js [--chain bsc|eth] markets     [keyword]
  *   node moolah.js [--chain bsc|eth] vaults      [keyword]
  *   node moolah.js                   prices
@@ -158,9 +158,10 @@ async function cmdDashboard(wallet) {
     };
   }
 
-  // Fetch all borrow markets for LLTV lookup (paginated)
+  // Fetch borrow markets from ALL chains for LLTV lookup — holdings API
+  // returns cross-chain data regardless of chain parameter.
   const allMarkets = await apiGetAll('/api/moolah/borrow/markets', {
-    zone: '0,1,3,4', chain: chainKey,
+    zone: '0,1,3,4', chain: 'bsc,ethereum',
   });
 
   // Build borrow APY lookup by marketId (address field)
@@ -178,6 +179,8 @@ async function cmdDashboard(wallet) {
 
   const positions = [];
   for (const h of holdingsList) {
+    // Filter by selected chain — holdings API returns all chains
+    if (h.chain && h.chain !== chainKey) continue;
     const marketId = h.marketId;
     const collateralAmount = parseFloat(h.collateralAmount || 0);
     const collateralUsd = parseFloat(h.collateralUsd || 0);
@@ -190,8 +193,10 @@ async function cmdDashboard(wallet) {
     const loanSym = h.loanSymbol || '?';
     const zone = h.zone ?? null;
 
-    // Dust filter
-    if (collateralUsd < 1 && debtUsd < 1) continue;
+    // Dust filter — only skip truly empty positions
+    if (collateralUsd === 0 && debtUsd === 0) continue;
+    // Debt-only filter (when --debt-only flag is set)
+    if (debtOnly && debtAmount === 0) continue;
 
     const corr = isCorrelated(collSym, loanSym);
     const metrics = computeMetrics(collateralAmount, collateralUsd, debtAmount, debtUsd, collPrice, loanPrice, lltv);
@@ -458,7 +463,7 @@ const COMMANDS = {
 const HELP = [
   'Lista Lending API tool — BSC + ETH',
   '',
-  'Usage: node moolah.js [--chain bsc|eth] <command> [args]',
+  'Usage: node moolah.js [--chain bsc|eth] [--debt-only] <command> [args]',
   '',
   '  dashboard   <wallet>       Full position report with metrics',
   '  markets     [keyword]      Borrow markets with rates and liquidity',
@@ -472,14 +477,17 @@ const HELP = [
   'Output: JSON on stdout. Errors on stderr.',
 ].join('\n');
 
-// Parse --chain flag
+// Parse --chain and --debt-only flags
 const rawArgs = process.argv.slice(2);
 let chainKey = 'bsc';
+let debtOnly = false;
 const cmdArgs = [];
 
 for (let i = 0; i < rawArgs.length; i++) {
   if (rawArgs[i] === '--chain' && rawArgs[i + 1]) {
     chainKey = rawArgs[++i].toLowerCase();
+  } else if (rawArgs[i] === '--debt-only') {
+    debtOnly = true;
   } else {
     cmdArgs.push(rawArgs[i]);
   }
